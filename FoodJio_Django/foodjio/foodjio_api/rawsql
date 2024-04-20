@@ -1,0 +1,11 @@
+INSERT INTO foodjio_api_cuisinetype (id, name)
+VALUES
+(1, 'American'),
+(2, 'Japanese'),
+(3, 'Asian'),
+(4, 'Mediterranean'),
+(5, 'Muslim'),
+(6, 'Korean'),
+(7, 'Vietnamese')
+
+DELETE FROM foodjio_api_cuisinetype
