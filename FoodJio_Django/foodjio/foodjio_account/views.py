@@ -6,6 +6,10 @@ from .models import Account
 from .serializers import UserSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework_simplejwt.tokens import AccessToken
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework_simplejwt.views import TokenObtainPairView
+
 # Create your views here.
 
 class register(APIView):
@@ -17,19 +21,58 @@ class register(APIView):
         else:
             return Response(serializer.errors)
 
-class login(APIView):
-    def post(self, request):
-        email = request.data['email']
-        password = request.data['password']
 
-        user = Account.objects.filter(email=email).first()
-        if user is None:
-            raise AuthenticationFailed('login error')
 
-        if not user.check_password(password):
-            raise AuthenticationFailed('login error')
+# class login(APIView):
+#     def post(self, request):
+#         email = request.data['email']
+#         password = request.data['password']
+#
+#         user = Account.objects.filter(email=email).first()
+#         if user is None:
+#             raise AuthenticationFailed('login error')
+#
+#         if not user.check_password(password):
+#             raise AuthenticationFailed('login error')
+#
+#         return Response({'message': 'success'})
 
-        return Response({'message': 'success'})
+
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+
+        return token
+
+
+class CustomTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer
+
+
+class update_user(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def patch(self, request):
+        token = request.auth
+        id_from_token = token.payload['user_id'] #This is a str
+        user = Account.objects.get(id=id_from_token)
+        print(f"User before update: {user}")
+        id_from_db = str(user.id) #This was a UUID type
+        if not isinstance(token, AccessToken):
+            return Response({'error': 'Invalid token'}, status=401)
+
+        if id_from_token != id_from_db:
+            return Response({'error': 'Unauthorized'}, status=403)
+
+        serializer = UserSerializer(instance=user, data=request.data, partial=True)
+
+        if serializer.is_valid():
+            serializer.save()
+            print(f"User after update: {user}")
+            return Response('user updated')
+        else:
+            return Response(serializer.errors)
 
 class JwtDetails(APIView):
     permission_classes = (IsAuthenticated,)
@@ -39,8 +82,7 @@ class JwtDetails(APIView):
         if response is not None:
             account, token = response
 
-            # Assuming isAdmin is a field in your User model
-            is_admin = account.is_admin  # or account.isAdmin, depending on your field name
+            is_admin = account.is_admin
 
             # Add isAdmin to the response payload
             payload = token.payload

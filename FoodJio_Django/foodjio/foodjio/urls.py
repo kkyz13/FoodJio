@@ -19,7 +19,7 @@ from django.urls import path, include
 
 urlpatterns = [
     path('account/a/', include('foodjio_account.urls')),
-    path('account/l/', include('jwt_handler.urls')),
+    path('account/r/', include('jwt_handler.urls')),
     path('api/', include('foodjio_api.urls')),
     path('admin/', admin.site.urls),
 ]
