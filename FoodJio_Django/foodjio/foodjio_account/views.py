@@ -15,6 +15,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 class register(APIView):
     def post(self, request):
         serializer = UserSerializer(data=request.data)
+        print(request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
@@ -74,6 +75,11 @@ class update_user(APIView):
         else:
             return Response(serializer.errors)
 
+
+# class delete_user(APIView):
+#     permission_classes = (IsAuthenticated,)
+#
+#     def delete(self, request):
 class JwtDetails(APIView):
     permission_classes = (IsAuthenticated,)
 
@@ -93,3 +99,18 @@ class JwtDetails(APIView):
             print(account.id)
 
             return Response(token.payload)
+
+class seeduser(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request):
+        if request.user.is_admin:
+            Account.objects.create(
+                id="4bd056d8-6c7b-40e9-83d6-86d7eea170cf",
+                email="Jbravo@mail.com",
+                name="Johnny Bravo",
+                hpnum="1237777",
+                password="pbkdf2_sha256$720000$9g8qYnoePSlz9enlEWT6Fo$Be+Wo+MdjD/PYjT4Lcs2dbg2UItR4a09U0mBYNOXOiw=")
+            return Response('user seed complete')
+        else:
+            return Response('You do not have sufficient privileges', status=403)

@@ -15,27 +15,31 @@ class CuisineType(models.Model):
 
 
 class Meet(models.Model):
-    id = models.AutoField(
+    id = models.UUIDField(
         primary_key=True,
         default=uuid.uuid4,
         unique=True,
         editable=False)
 
+    def get_default_meetdatetime():
+        return datetime.datetime.now() + datetime.timedelta(days=7)
     author = models.ForeignKey(Account, on_delete=models.DO_NOTHING, null=False)
-    CuisineType = models.ForeignKey(CuisineType, on_delete=models.DO_NOTHING, null=False)
-    foodimg = models.TextField()
+    cuisinetype = models.ForeignKey(CuisineType, on_delete=models.DO_NOTHING, null=False)
+    foodimg = models.TextField(null=True, blank=True)
     title = models.CharField(max_length=100)
     address = models.CharField(max_length=500)
-    website = models.TextField()
-    meetdatetime = models.DateTimeField(
-        default=datetime.datetime.now()+datetime.timedelta(days=7)
-    ) # if no input, put date to be 7 days from creation.
-    abuseflag = models.BooleanField(default=False)
-    active = models.BooleanField(default=True)
+    website = models.TextField(blank= True, null=True)
+    meetdatetime = models.DateTimeField(default=get_default_meetdatetime, blank=True)
+     # if no input, put date to be 7 days from creation.
+    abuseflag = models.BooleanField(default=False, blank=True, null=True)
+    full = models.BooleanField(default=False, blank= True, null=True)
+    active = models.BooleanField(default=True, blank= True, null=True)
 
     def __str__(self):
         return self
-
+    @property
+    def current_num(self):
+        return self.subscribers.count()
 class MeetParticipants(models.Model):
 
     meet = models.ForeignKey(Meet, on_delete=models.DO_NOTHING)

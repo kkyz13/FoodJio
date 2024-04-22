@@ -9,3 +9,6 @@ VALUES
 (7, 'Vietnamese')
 
 DELETE FROM foodjio_api_cuisinetype
+
+INSERT INTO foodjio_api_meet (foodimg, title, address, website, cuisinetype_id, author_id, maxnum)
+VALUES ('none', 'TestMeet', '4 Food Court', 'none', '1', '9a077b19-e6f0-4cef-a3d5-9d91555066b6', '2' );

@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import CuisineType, Meet, MeetParticipants
-from .serializers import MeetSerializer
+from .serializers import MeetSerializer, CuisineSerializer
 
 from rest_framework.permissions import IsAuthenticated
 
@@ -39,14 +39,22 @@ class seedcuisine(APIView):
             return Response('You do not have sufficient privileges', status=403)
 
 
+
 class get_meets(APIView):
     permission_classes = (IsAuthenticated,)
 
-    def get(self, request, pk):
+    def get(self, request):
         meet_instance = Meet.objects.all()
         serializer = MeetSerializer(meet_instance, many=True)
         return Response(serializer.data)
 
+class get_ctype(APIView):
+    # permission_classes = (IsAuthenticated,)
+
+    def get(self, request):
+        meet_instance = CuisineType.objects.all()
+        serializer = CuisineSerializer(meet_instance, many=True)
+        return Response(serializer.data)
 
 class get_one_meet(APIView):
     permission_classes = (IsAuthenticated,)
@@ -61,7 +69,10 @@ class put_meet(APIView):
     permission_classes = (IsAuthenticated,)
 
     def put(self, request):
-        serializer = MeetSerializer(data=request.data)
+        user = request.user  # Get the user from the JWT token
+        data = request.data.copy()  # Create a copy of the request data
+        data['author'] = user.id  # Add the user's ID to the data
+        serializer = MeetSerializer(data=data)
 
         if serializer.is_valid():
             serializer.save()
@@ -75,6 +86,10 @@ class patch_meet(APIView):
 
     def patch(self, request, pk):
         meet = Meet.objects.get(id=pk)
+        user = request.user  # Get the user from the JWT token
+
+        if meet.author.id != user.id:
+            return Response({'error': 'You are not authorized to update this meet'}, status=403)
         serializer = MeetSerializer(instance=meet, data=request.data, partial=True)
 
         if serializer.is_valid():
@@ -88,6 +103,11 @@ class delete_meet(APIView):
 
     def delete(self, request, pk):
         meet =Meet.objects.get(id=pk)
-        meet.delete()
+        user = request.user  # Get the user from the JWT token
+
+        if meet.author.id != user.id:
+            return Response({'error': 'You are not authorized to update this meet'}, status=403)
+        else:
+            meet.delete()
 
         return Response('meet deleted')

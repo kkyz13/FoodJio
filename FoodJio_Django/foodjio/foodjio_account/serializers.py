@@ -20,7 +20,7 @@ class UserSerializer(serializers.ModelSerializer):
     def validate(self, data):
         if ('is_admin' in data and data['is_admin'] is True
                 and self.context['request'].user.is_superuser is False):
-            raise serializers.ValidationError("FUnauthorized")
+            raise serializers.ValidationError("Unauthorized")
         if ('is_superuser' in data and data['is_superuser'] is True
                 and self.context['request'].user.is_superuser is False):
             raise serializers.ValidationError("Unauthorized")

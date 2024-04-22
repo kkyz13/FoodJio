@@ -6,13 +6,14 @@ import uuid
 # Create your models here.
 
 class AccountManager(BaseUserManager):
-    def create_user(self, email, name, password=None):
+    def create_user(self, email, name, hpnum, password=None):
         if not email:
             raise ValueError('User needs an email')
 
         user = self.model(
             email=self.normalize_email(email),
             name=name,
+            hpnum=hpnum,
 
         )
 
@@ -20,10 +21,11 @@ class AccountManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email, name, password):
+    def create_superuser(self, email, name, password, hpnum='None'):
         user = self.create_user(
             email=email,
             name=name,
+            hpnum=hpnum,
             password=password
         )
 
@@ -38,7 +40,7 @@ class Account(AbstractBaseUser):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     email = models.EmailField(verbose_name='email', max_length=60, unique=True)
     name = models.CharField(max_length=30)
-    hpnum = models.CharField(max_length=16)
+    hpnum = models.CharField(blank=True)
     img = models.TextField(default='')
     date_joined = models.DateTimeField(verbose_name='date joined', auto_now_add=True)  #auto_now_add adds it once
     last_login = models.DateTimeField(verbose_name='last login', auto_now=True)  #auto_now adds and modifies everytime
