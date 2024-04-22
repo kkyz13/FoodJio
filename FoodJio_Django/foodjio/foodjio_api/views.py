@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import CuisineType, Meet, MeetParticipants
-from .serializers import MeetSerializer, CuisineSerializer
+from .serializers import MeetSerializer, CuisineSerializer, SubscribeSerializer
 
 from rest_framework.permissions import IsAuthenticated
 
@@ -48,6 +48,14 @@ class get_meets(APIView):
         serializer = MeetSerializer(meet_instance, many=True)
         return Response(serializer.data)
 
+
+class get_active_meets(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self,request):
+        meet_instance = Meet.objects.filter(active=True)
+        serializer = MeetSerializer(meet_instance, many=True)
+        return Response(serializer.data)
 class get_ctype(APIView):
     # permission_classes = (IsAuthenticated,)
 
@@ -111,3 +119,36 @@ class delete_meet(APIView):
             meet.delete()
 
         return Response('meet deleted')
+
+class subscribe_meet(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def put(self,request,pk):
+        meet = Meet.objects.get(id=pk)
+        user = request.user
+
+        serializer = SubscribeSerializer(data={
+            'account':user.id,
+            'meet':meet.id
+        })
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response('user subscribed')
+        return Response(serializer.errors)
+
+class unsubscribe_meet(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def delete(self,request,pk):
+        meet=Meet.objects.get(id=pk)
+        user = request.user
+        try:
+            subscription = MeetParticipants.objects.get(meet=meet.id, account=user.id)
+
+            if subscription:
+                subscription.delete()
+                return Response('user unsubscribed')
+        except MeetParticipants.DoesNotExist:
+            return Response('meeting/user not found')
+

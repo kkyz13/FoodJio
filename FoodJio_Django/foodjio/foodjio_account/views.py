@@ -76,10 +76,24 @@ class update_user(APIView):
             return Response(serializer.errors)
 
 
-# class delete_user(APIView):
-#     permission_classes = (IsAuthenticated,)
-#
-#     def delete(self, request):
+class delete_user(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def delete(self, request):
+        token = request.auth
+        id_from_token = token.payload['user_id'] #This is a str
+        user = Account.objects.get(id=id_from_token)
+        id_from_db = str(user.id) #This was a UUID type
+        if not isinstance(token, AccessToken):
+            return Response({'error': 'Invalid token'}, status=401)
+
+        if id_from_token != id_from_db:
+            return Response({'error': 'Unauthorized'}, status=403)
+
+        if request.user.is_admin:
+            user.is_active = False
+            user.save()
+        return Response({'message': 'User is made inactive successfully'}, status=200)
 class JwtDetails(APIView):
     permission_classes = (IsAuthenticated,)
 

@@ -19,3 +19,9 @@ class CuisineSerializer(serializers.ModelSerializer):
     class Meta:
         model = CuisineType
         fields = '__all__'
+
+class SubscribeSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = MeetParticipants
+        fields = ('meet','account')
