@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import CuisineType, Meet, MeetParticipants
-from .serializers import MeetSerializer, CuisineSerializer, SubscribeSerializer
+from .serializers import MeetSerializer, CuisineSerializer, SubscribeSerializer, GetMeetSerializer
 from foodjio_account.models import Account
 from rest_framework.permissions import IsAuthenticated
 from django.db.models import Count
@@ -70,7 +70,7 @@ class get_one_meet(APIView):
 
     def get(self, request, pk):
         meet_instance = Meet.objects.get(id=pk)
-        serializer = MeetSerializer(meet_instance, many=False)
+        serializer = GetMeetSerializer(meet_instance, many=False)
 
         cuisine_type = meet_instance.cuisinetype
         if cuisine_type:
