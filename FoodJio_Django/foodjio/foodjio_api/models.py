@@ -1,5 +1,5 @@
 import datetime
-
+from django.db.models import Count
 from django.db import models
 import uuid
 
@@ -32,7 +32,7 @@ class Meet(models.Model):
     meetdatetime = models.DateTimeField(default=get_default_meetdatetime, blank=True)
      # if no input, put date to be 7 days from creation.
     abuseflag = models.BooleanField(default=False, blank=True, null=True)
-    full = models.BooleanField(default=False, blank=True, null=True)
+    is_full = models.BooleanField(default=False, blank=True, null=True)
     active = models.BooleanField(default=True, blank=True, null=True)
     maxnum = models.SmallIntegerField(null=False, blank=False)
 
@@ -45,6 +45,24 @@ class MeetParticipants(models.Model):
 
     meet = models.ForeignKey(Meet, on_delete=models.DO_NOTHING)
     account = models.ForeignKey(Account, on_delete=models.DO_NOTHING)
+
+    def save(self, *args, **kwargs):
+        meet = self.meet
+        meet_participants = MeetParticipants.objects.values('meet').annotate(member_count=Count('id'))
+        if meet_participants.count() == meet.maxnum:
+            meet.is_full = True
+            meet.save()
+        else:
+            meet.is_full = False
+            meet.save()
+        super().save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        meet_participants = MeetParticipants.objects.filter(meet=self.meet)
+        if meet_participants.count() == self.meet.maxnum:
+            self.meet.is_full = False
+            self.meet.save()
+        super().delete(*args, **kwargs)
 
     class Meta:
         unique_together = ('meet', 'account')
