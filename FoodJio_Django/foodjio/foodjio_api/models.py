@@ -32,8 +32,9 @@ class Meet(models.Model):
     meetdatetime = models.DateTimeField(default=get_default_meetdatetime, blank=True)
      # if no input, put date to be 7 days from creation.
     abuseflag = models.BooleanField(default=False, blank=True, null=True)
-    full = models.BooleanField(default=False, blank= True, null=True)
-    active = models.BooleanField(default=True, blank= True, null=True)
+    full = models.BooleanField(default=False, blank=True, null=True)
+    active = models.BooleanField(default=True, blank=True, null=True)
+    maxnum = models.SmallIntegerField(null=False, blank=False)
 
     def __str__(self):
         return self
