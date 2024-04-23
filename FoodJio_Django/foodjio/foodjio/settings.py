@@ -28,7 +28,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 AUTH_USER_MODEL = 'foodjio_account.Account'
-
+AUTHENTICATION_BACKENDS = ['foodjio_account.backends.CaseInsensitiveModelBackend']
 # Application definition
 
 INSTALLED_APPS = [
@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
     'rest_framework',
     'foodjio_account',
     'foodjio_api',
@@ -57,6 +58,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware'
 ]
 
 ROOT_URLCONF = 'foodjio.urls'
@@ -163,3 +165,5 @@ SIMPLE_JWT = {
 
     'JTI_CLAIM': 'jti',
 }
+
+CORS_ORIGIN_ALLOW_ALL = True
