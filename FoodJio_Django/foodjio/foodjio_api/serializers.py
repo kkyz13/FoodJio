@@ -1,8 +1,17 @@
 from rest_framework import serializers
 from .models import Meet, CuisineType, MeetParticipants
+from foodjio_account.serializers import UserSerializer, AuthorSerializer
 
+
+class CuisineSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = CuisineType
+        fields = ['name']
 
 class MeetSerializer(serializers.ModelSerializer):
+    author = AuthorSerializer()
+    cuisinetype = CuisineSerializer()
     class Meta:
         model = Meet
         # fields = '__all__'
@@ -14,14 +23,9 @@ class MeetSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError('Title has to be at least 5 characters long')
         return value
 
-class CuisineSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = CuisineType
-        fields = '__all__'
 
 class SubscribeSerializer(serializers.ModelSerializer):
-
+    account = UserSerializer()
     class Meta:
         model = MeetParticipants
         fields = ('meet','account')

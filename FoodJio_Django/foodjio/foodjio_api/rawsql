@@ -45,3 +45,38 @@ CREATE TRIGGER meet_participants_trigger
 AFTER INSERT OR UPDATE OR DELETE ON foodjio_api_meetparticipants
 FOR EACH ROW
 EXECUTE FUNCTION check_is_full();
+
+
+`````````````````
+DROP TRIGGER update_maxnum_trigger ON foodjio_api_meetparticipants;
+
+
+CREATE OR REPLACE FUNCTION update_meet_maxnum()
+RETURNS TRIGGER AS $$
+DECLARE
+    participant_count integer;
+BEGIN
+    -- Calculate the number of participants for the meet with the given meet_id
+    SELECT COUNT(account_id) INTO participant_count
+    FROM foodjio_api_meetparticipants
+    WHERE meet_id = NEW.meet_id;
+
+    -- Update the is_full column in the foodjio_api_meet table based on whether the count is equal to maxnum
+    IF participant_count = (SELECT maxnum FROM foodjio_api_meet WHERE id = NEW.meet_id) THEN
+        UPDATE foodjio_api_meet
+        SET is_full = TRUE
+        WHERE id = NEW.meet_id;
+    ELSEIF participant_count < (SELECT maxnum FROM foodjio_api_meet WHERE id = NEW.meet_id) THEN
+        UPDATE foodjio_api_meet
+        SET is_full = FALSE
+        WHERE id = NEW.meet_id;
+    END IF;
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER update_maxnum_trigger
+AFTER INSERT ON foodjio_api_meetparticipants
+FOR EACH ROW
+EXECUTE FUNCTION update_meet_maxnum();

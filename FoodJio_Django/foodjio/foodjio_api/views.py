@@ -71,6 +71,11 @@ class get_one_meet(APIView):
     def get(self, request, pk):
         meet_instance = Meet.objects.get(id=pk)
         serializer = MeetSerializer(meet_instance, many=False)
+
+        cuisine_type = meet_instance.cuisinetype
+        if cuisine_type:
+            serializer.data['cuisinetype'] = cuisine_type.name
+
         return Response(serializer.data)
 
 

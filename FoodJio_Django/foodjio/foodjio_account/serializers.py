@@ -28,3 +28,8 @@ class UserSerializer(serializers.ModelSerializer):
                 and self.context['request'].user.is_superuser is False):
             raise serializers.ValidationError("Unauthorized")
         return data
+
+class AuthorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Account
+        fields = ['id', 'name', 'email', 'hpnum']
