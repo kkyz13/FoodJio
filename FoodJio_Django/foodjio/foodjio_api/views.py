@@ -155,7 +155,13 @@ class unsubscribe_meet(APIView):
         except MeetParticipants.DoesNotExist:
             return Response('meeting/user not found')
 
-class count_participants(APIView):
+class count_all_participants(APIView):
     def get(self, request):
         meet_participants = MeetParticipants.objects.values('meet').annotate(member_count=Count('id'))
+        return Response(meet_participants)
+
+class count_meet_participants(APIView):
+    def get(self, request, pk):
+
+        meet_participants = MeetParticipants.objects.filter(meet=pk).values('meet').annotate(member_count=Count('id'))
         return Response(meet_participants)
