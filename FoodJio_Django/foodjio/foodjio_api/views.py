@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import CuisineType, Meet, MeetParticipants
 from .serializers import MeetSerializer, CuisineSerializer, SubscribeSerializer
-
+from foodjio_account.models import Account
 from rest_framework.permissions import IsAuthenticated
 
 from rest_framework_simplejwt.authentication import JWTAuthentication
@@ -56,8 +56,8 @@ class get_active_meets(APIView):
         meet_instance = Meet.objects.filter(active=True)
         serializer = MeetSerializer(meet_instance, many=True)
         return Response(serializer.data)
+
 class get_ctype(APIView):
-    # permission_classes = (IsAuthenticated,)
 
     def get(self, request):
         meet_instance = CuisineType.objects.all()
@@ -83,7 +83,8 @@ class put_meet(APIView):
         serializer = MeetSerializer(data=data)
 
         if serializer.is_valid():
-            serializer.save()
+            meet = serializer.save()  # Save the meet to the database
+            MeetParticipants.objects.create(meet=meet, account=user)  # Create a new MeetParticipants instance
             return Response(serializer.data)
         else:
             return Response(serializer.errors)
@@ -126,6 +127,7 @@ class subscribe_meet(APIView):
     def put(self,request,pk):
         meet = Meet.objects.get(id=pk)
         user = request.user
+        userinfo = Account.objects.get(user.id)
 
         serializer = SubscribeSerializer(data={
             'account':user.id,

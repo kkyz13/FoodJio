@@ -8,6 +8,6 @@ urlpatterns = [
 
     path('update/', views.update_user.as_view()),
 
-    # path('delete/', views)
+    path('delete/inteloper/<str:pk>/', views.delete_target_user.as_view()),
     path('jwtdetails/', views.JwtDetails.as_view())
 ]

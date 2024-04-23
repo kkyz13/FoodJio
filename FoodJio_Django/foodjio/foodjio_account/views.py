@@ -43,12 +43,15 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):
         token = super().get_token(user)
+        # if not user.is_active:
+        #     return Response ({'detail': 'User account is disabled'})
 
         return token
 
 
 class CustomTokenObtainPairView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
+
 
 
 class update_user(APIView):
@@ -93,6 +96,16 @@ class delete_user(APIView):
         if request.user.is_admin:
             user.is_active = False
             user.save()
+        return Response({'message': 'User is made inactive successfully'}, status=200)
+
+class delete_target_user(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def delete(self, request, pk):
+        inteloper = Account.objects.get(id=pk)
+        if request.user.is_admin:
+            inteloper.is_active = False
+            inteloper.save()
         return Response({'message': 'User is made inactive successfully'}, status=200)
 class JwtDetails(APIView):
     permission_classes = (IsAuthenticated,)
