@@ -116,11 +116,11 @@ class JwtDetails(APIView):
             account, token = response
 
             is_admin = account.is_admin
-
+            username = account.name
             # Add isAdmin to the response payload
             payload = token.payload
             payload['isAdmin'] = is_admin
-
+            payload['name'] = username
             print(response)
             print(account)
             print(account.id)

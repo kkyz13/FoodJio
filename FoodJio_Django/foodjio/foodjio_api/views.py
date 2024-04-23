@@ -5,6 +5,7 @@ from .models import CuisineType, Meet, MeetParticipants
 from .serializers import MeetSerializer, CuisineSerializer, SubscribeSerializer
 from foodjio_account.models import Account
 from rest_framework.permissions import IsAuthenticated
+from django.db.models import Count
 
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
@@ -127,7 +128,7 @@ class subscribe_meet(APIView):
     def put(self,request,pk):
         meet = Meet.objects.get(id=pk)
         user = request.user
-        userinfo = Account.objects.get(user.id)
+        # userinfo = Account.objects.get(user.id)
 
         serializer = SubscribeSerializer(data={
             'account':user.id,
@@ -154,3 +155,7 @@ class unsubscribe_meet(APIView):
         except MeetParticipants.DoesNotExist:
             return Response('meeting/user not found')
 
+class count_participants(APIView):
+    def get(self, request):
+        meet_participants = MeetParticipants.objects.values('meet').annotate(member_count=Count('id'))
+        return Response(meet_participants)
