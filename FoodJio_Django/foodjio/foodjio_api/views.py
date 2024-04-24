@@ -46,7 +46,7 @@ class get_meets(APIView):
 
     def get(self, request):
         meet_instance = Meet.objects.all()
-        serializer = MeetSerializer(meet_instance, many=True)
+        serializer = GetMeetSerializer(meet_instance, many=True)
         return Response(serializer.data)
 
 
@@ -55,7 +55,7 @@ class get_active_meets(APIView):
 
     def get(self,request):
         meet_instance = Meet.objects.filter(active=True)
-        serializer = MeetSerializer(meet_instance, many=True)
+        serializer = GetMeetSerializer(meet_instance, many=True)
         return Response(serializer.data)
 
 class get_ctype(APIView):
@@ -85,7 +85,7 @@ class put_meet(APIView):
     def put(self, request):
         user = request.user  # Get the user from the JWT token
         data = request.data.copy()  # Create a copy of the request data
-        data['author'] = user.id  # Add the user's ID to the data
+        data['author'] = user.id  # Add {author: user_ID} to the data
         serializer = MeetSerializer(data=data)
 
         if serializer.is_valid():
@@ -123,7 +123,8 @@ class delete_meet(APIView):
         if meet.author.id != user.id:
             return Response({'error': 'You are not authorized to update this meet'}, status=403)
         else:
-            meet.delete()
+            meet.active = False
+            meet.save()
 
         return Response('meet deleted')
 
@@ -151,6 +152,9 @@ class unsubscribe_meet(APIView):
     def delete(self,request,pk):
         meet=Meet.objects.get(id=pk)
         user = request.user
+        print (meet.author_id)
+        if str(meet.author_id) == str(user.id):
+            return Response('you cannot remove yourself from your own meet')
         try:
             subscription = MeetParticipants.objects.get(meet=meet.id, account=user.id)
 
@@ -160,12 +164,12 @@ class unsubscribe_meet(APIView):
         except MeetParticipants.DoesNotExist:
             return Response('meeting/user not found')
 
-class count_all_participants(APIView):
+class get_all_participants(APIView):
     def get(self, request):
         meet_participants = MeetParticipants.objects.values('meet').annotate(member_count=Count('id'))
         return Response(meet_participants)
 
-class count_meet_participants(APIView):
+class get_meet_participants(APIView):
     def get(self, request, pk):
 
         meet_participants = MeetParticipants.objects.filter(meet=pk).values('meet').annotate(member_count=Count('id'))

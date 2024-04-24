@@ -7,9 +7,11 @@ class CuisineSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CuisineType
-        fields = ['name']
+        fields = '__all__'
 
 class MeetSerializer(serializers.ModelSerializer):
+    # author = AuthorSerializer()
+    # cuisinetype = CuisineSerializer()
     class Meta:
         model = Meet
         # fields = '__all__'

@@ -1,0 +1,51 @@
+-- FUNCTION: public.falsify_meet_maxnum()
+
+-- DROP FUNCTION IF EXISTS public.falsify_meet_maxnum();
+
+CREATE OR REPLACE
+FUNCTION public.falsify_meet_maxnum()
+    RETURNS trigger
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE NOT LEAKPROOF
+AS $BODY$
+DECLARE
+    participant_count integer;
+BEGIN
+RAISE NOTICE 'Hello World!';
+    -- Calculate the number of participants for the meet with the given meet_id
+    --SELECT COUNT(account_id) --INTO participant_count
+    --FROM foodjio_api_meetparticipants
+    --WHERE meet_id = NEW.meet_id;
+
+    --IF participant_count < (SELECT maxnum FROM foodjio_api_meet WHERE id = NEW.meet_id) THEN
+
+		-- >=2: full
+		-- <2: not full
+        UPDATE foodjio_api_meet
+        SET is_full =
+		(
+			--select is_full from
+		 --(
+		    select CASE WHEN num < foodjio_api_meet.maxnum THEN false ELSE true END is_full FROM
+			(
+			select meet_id, count(1) num from foodjio_api_meetparticipants
+			group by meet_id
+			) t
+			WHERE foodjio_api_meet.id = t.meet_id
+		--)
+		);
+
+    --END IF;
+
+    RETURN NEW;
+END;
+$BODY$;
+
+ALTER FUNCTION public.falsify_meet_maxnum()
+    OWNER TO postgres;
+
+CREATE TRIGGER falsify_maxnum_trigger
+AFTER INSERT OR UPDATE OR DELETE ON foodjio_api_meetparticipants
+FOR EACH ROW
+EXECUTE FUNCTION falsify_meet_maxnum();

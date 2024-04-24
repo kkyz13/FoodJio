@@ -1,3 +1,15 @@
+SELECT  event_object_table AS table_name ,trigger_name
+FROM information_schema.triggers
+GROUP BY table_name , trigger_name
+ORDER BY table_name ,trigger_name
+
+
+DROP TRIGGER update_maxnum_trigger ON foodjio_api_meetparticipants;
+
+
+DROP FUNCTION update_meet_maxnum;
+
+
 INSERT INTO foodjio_api_cuisinetype (id, name)
 VALUES
 (1, 'American'),
@@ -66,7 +78,7 @@ BEGIN
         UPDATE foodjio_api_meet
         SET is_full = TRUE
         WHERE id = NEW.meet_id;
-    ELSEIF participant_count < (SELECT maxnum FROM foodjio_api_meet WHERE id = NEW.meet_id) THEN
+    ELSIF participant_count < (SELECT maxnum FROM foodjio_api_meet WHERE id = NEW.meet_id) THEN
         UPDATE foodjio_api_meet
         SET is_full = FALSE
         WHERE id = NEW.meet_id;
@@ -77,6 +89,6 @@ END;
 $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER update_maxnum_trigger
-AFTER INSERT ON foodjio_api_meetparticipants
+AFTER INSERT OR DELETE ON foodjio_api_meetparticipants
 FOR EACH ROW
 EXECUTE FUNCTION update_meet_maxnum();
