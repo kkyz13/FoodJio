@@ -4,9 +4,10 @@ from rest_framework.views import APIView
 from .models import CuisineType, Meet, MeetParticipants
 from .serializers import MeetSerializer, CuisineSerializer, SubscribeSerializer, GetMeetSerializer
 from foodjio_account.models import Account
+from foodjio_account.serializers import AuthorSerializer
 from rest_framework.permissions import IsAuthenticated
 from django.db.models import Count
-
+from collections import defaultdict
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
 
@@ -166,11 +167,32 @@ class unsubscribe_meet(APIView):
 
 class get_all_participants(APIView):
     def get(self, request):
-        meet_participants = MeetParticipants.objects.values('meet').annotate(member_count=Count('id'))
-        return Response(meet_participants)
+        meet_participants = MeetParticipants.objects.values('meet_id', 'account_id')
+        result = {}
+        for entry in meet_participants:
+            meet_id = str(entry['meet_id'])
+            account_id = entry['account_id']
+            if meet_id not in result:
+                result[meet_id] = []
+            result[meet_id].append(account_id)
+
+        serialized_result = {}
+        for meet_id, account_ids in result.items():
+            users = Account.objects.filter(id__in=account_ids)
+            serialized_users = AuthorSerializer(users, many=True).data
+            serialized_result[meet_id] = serialized_users
+
+        return Response(serialized_result)
 
 class get_meet_participants(APIView):
     def get(self, request, pk):
+        meet_participants = MeetParticipants.objects.filter(meet_id=pk).values('account_id')
+        account_ids = [entry['account_id'] for entry in meet_participants]
 
-        meet_participants = MeetParticipants.objects.filter(meet=pk).values('meet').annotate(member_count=Count('id'))
-        return Response(meet_participants)
+        if not account_ids:
+            return Response({"error": "No participants found for meet_id {}".format(pk)}, status=status.HTTP_404_NOT_FOUND)
+
+        users = Account.objects.filter(id__in=account_ids)
+        serialized_users = AuthorSerializer(users, many=True).data
+
+        return Response(serialized_users)
