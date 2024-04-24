@@ -2,6 +2,7 @@ from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.exceptions import AuthenticationFailed
+from django.utils.timezone import now
 from .models import Account
 from .serializers import UserSerializer
 from rest_framework.permissions import IsAuthenticated
@@ -14,14 +15,14 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 
 class register(APIView):
     def post(self, request):
-        serializer = UserSerializer(data=request.data)
-        print(request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        else:
-            return Response(serializer.errors)
-
+        # serializer = UserSerializer(data=request.data)
+        # if serializer.is_valid():
+        #     serializer.save()
+        #     return Response(serializer.data)
+        # else:
+        #     return Response(serializer.errors)
+        Account.objects.create_user(request.data["email"], request.data["name"], request.data["hpnum"], request.data["password"])
+        return Response("user created")
 
 
 # class login(APIView):
@@ -43,6 +44,15 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):
         token = super().get_token(user)
+        token["name"] = user.name
+        token["email"] = user.email
+        if user.last_login:
+            token['last_login'] = user.last_login.strftime('%d/%m/%Y')
+        else:
+            token['last_login'] = now().strftime('%d/%m/%Y')
+
+        user.last_login=now()
+        user.save(update_fields=['last_login'])
         # if not user.is_active:
         #     return Response ({'detail': 'User account is disabled'})
 
