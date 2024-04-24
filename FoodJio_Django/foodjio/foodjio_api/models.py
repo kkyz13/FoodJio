@@ -32,7 +32,7 @@ class Meet(models.Model):
     meetdatetime = models.DateTimeField(default=get_default_meetdatetime, blank=True)
      # if no input, put date to be 7 days from creation.
     abuseflag = models.BooleanField(default=False, blank=True, null=True)
-    is_full = models.BooleanField(default=False, blank=True, null=True)
+    is_full = models.BooleanField(default=False, blank=True)
     active = models.BooleanField(default=True, blank=True, null=True)
     maxnum = models.SmallIntegerField(null=False, blank=False)
 

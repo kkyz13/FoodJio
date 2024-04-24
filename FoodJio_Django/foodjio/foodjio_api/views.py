@@ -190,7 +190,7 @@ class get_meet_participants(APIView):
         account_ids = [entry['account_id'] for entry in meet_participants]
 
         if not account_ids:
-            return Response({"error": "No participants found for meet_id {}".format(pk)}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"error": "No participants found for meet_id {}".format(pk)})
 
         users = Account.objects.filter(id__in=account_ids)
         serialized_users = AuthorSerializer(users, many=True).data
