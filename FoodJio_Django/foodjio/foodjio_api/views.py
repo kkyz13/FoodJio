@@ -144,6 +144,9 @@ class subscribe_meet(APIView):
 
         if serializer.is_valid():
             serializer.save()
+            meet.currentnum += 1
+            meet.save()
+
             return Response('user subscribed')
         return Response(serializer.errors)
 
@@ -161,6 +164,9 @@ class unsubscribe_meet(APIView):
 
             if subscription:
                 subscription.delete()
+                meet.currentnum -= 1
+                meet.save()
+
                 return Response('user unsubscribed')
         except MeetParticipants.DoesNotExist:
             return Response('meeting/user not found')

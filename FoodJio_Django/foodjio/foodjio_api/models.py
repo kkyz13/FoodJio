@@ -34,6 +34,7 @@ class Meet(models.Model):
     abuseflag = models.BooleanField(default=False, blank=True, null=True)
     is_full = models.BooleanField(default=False, blank=True)
     active = models.BooleanField(default=True, blank=True, null=True)
+    currentnum = models.SmallIntegerField(null=False, blank=False, default=1)
     maxnum = models.SmallIntegerField(null=False, blank=False)
 
     def __str__(self):

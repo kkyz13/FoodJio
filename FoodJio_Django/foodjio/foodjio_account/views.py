@@ -21,8 +21,14 @@ class register(APIView):
         #     return Response(serializer.data)
         # else:
         #     return Response(serializer.errors)
-        Account.objects.create_user(request.data["email"], request.data["name"], request.data["hpnum"], request.data["password"])
-        return Response("user created")
+        try:
+            Account.objects.create_user(request.data["email"], request.data["name"], request.data["hpnum"], request.data["password"])
+
+        except Exception as e:
+            return Response({"message": str(e)}, status=400)
+
+        else:
+            return Response("user created")
 
 
 # class login(APIView):
@@ -46,6 +52,7 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         token = super().get_token(user)
         token["name"] = user.name
         token["email"] = user.email
+        token["is_admin"] = user.is_superuser
         if user.last_login:
             token['last_login'] = user.last_login.strftime('%d/%m/%Y')
         else:
