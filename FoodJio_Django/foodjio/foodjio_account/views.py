@@ -53,8 +53,19 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
 class CustomTokenObtainPairView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
 
+class get_all_user(APIView):
+    permission_classes = (IsAuthenticated,)
 
-
+    def get(self,request):
+        user_instance = Account.objects.all()
+        serializer = UserSerializer(user_instance, many=True)
+        return Response(serializer.data)
+class get_user(APIView):
+    permission_classes = (IsAuthenticated,)
+    def get(self,request, pk):
+        user_instance = Account.objects.get(id=pk)
+        serializer = UserSerializer(user_instance, many=False)
+        return Response(serializer.data)
 class update_user(APIView):
     permission_classes = (IsAuthenticated,)
 
