@@ -178,7 +178,7 @@ const MeetCanvas = () => {
 
   return (
     <>
-      <div className="container-fluid m-3 row">
+      <div className="display container-fluid m-50 row">
         <div className="d-flex flex-column col-4">
           {imgUrl && <img src={imgUrl} />}
           {customUpload && (

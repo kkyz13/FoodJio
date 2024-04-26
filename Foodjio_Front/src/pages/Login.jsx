@@ -76,7 +76,7 @@ const Login = () => {
   return (
     <>
       {/* <button onClick={() => getCType()}>Test Button</button> */}
-      <div className="container">
+      <div className="display container">
         <div className="row">
           <div className="leftbox col-3 d-flex flex-column mb-3 align-items-center">
             <div>

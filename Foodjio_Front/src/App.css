@@ -5,6 +5,8 @@
   font-optical-sizing: auto;
   font-weight: 200;
   font-style: normal;
+  position: fixed;
+  z-index: 50;
   background-color: #c64646;
   min-height: 3rem;
   color: white;
@@ -21,8 +23,10 @@
 }
 
 .display {
+  margin-top: 50px;
   width: 100vw;
   overflow-x: hidden;
+
   text-wrap: wrap;
   padding: 15px 60px;
 }
@@ -37,6 +41,9 @@
   font-optical-sizing: auto;
   font-weight: 200;
   font-style: normal;
+}
+.meetlist {
+  margin-top: 50px;
 }
 .meetcard {
   background-color: rgb(255, 255, 255);
@@ -78,6 +85,8 @@
   font-family: "League Spartan", sans-serif;
   font-size: large;
   padding: 2px 17px;
+  position: fixed;
+  z-index: 50;
   background-color: rgb(255, 152, 152);
   border: white solid 2px;
   color: black;

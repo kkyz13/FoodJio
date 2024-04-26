@@ -9,6 +9,7 @@ import { jwtDecode } from "jwt-decode";
 const MeetDetails = () => {
   const params = useParams();
   const meetId = params.id;
+  const userCtx = useContext(UserContext);
   const fetchData = useFetch();
   const navigate = useNavigate();
   //==============================//
@@ -16,7 +17,7 @@ const MeetDetails = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isAuthor, setIsAuthor] = useState(false);
   const [isSubscribed, setIsSubscribed] = useState(false);
-  const userCtx = useContext(UserContext);
+
   const [fetchLocalStorage, setFetchLocalStorage] = useState(false);
 
   const tooltipTriggerList = document.querySelectorAll(
@@ -130,7 +131,7 @@ const MeetDetails = () => {
   return (
     <>
       {isLoaded ? (
-        <div className="container d-flex flex-row m-3">
+        <div className="display container d-flex flex-row m-50">
           <div className="gx-0">
             <img src={meetData.foodimg} className="meetimg" />
             <div>About the organizer:</div>

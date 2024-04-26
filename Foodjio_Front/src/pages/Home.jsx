@@ -94,7 +94,7 @@ const Home = () => {
           </button>
         </div>
         {loaded ? (
-          <div className="d-flex flex-row flex-wrap">
+          <div className="meetlist d-flex flex-row flex-wrap">
             {meetList.map((entry, id) => {
               return (
                 <Link to={`/meet/` + entry.id} key={entry.id}>
