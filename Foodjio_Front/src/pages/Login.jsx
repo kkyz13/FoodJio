@@ -21,20 +21,6 @@ const Login = () => {
     localStorage.removeItem("user"); //logout?
   }, []);
 
-  const getCType = async () => {
-    try {
-      const res = await fetch(import.meta.env.VITE_SERVER + "/api/getctype/");
-      if (res.status === 200) {
-        console.log("successful fetch");
-        const data = await res.json();
-        console.log(data);
-      }
-    } catch (error) {
-      // console.log(error.message);
-      console.log("Fetch failed");
-    }
-  };
-
   const handleUserLogin = async () => {
     const res = await fetchData("/account/a/login/", "POST", {
       email: emailRef.current.value,
@@ -46,8 +32,8 @@ const Login = () => {
       userCtx.setAccessToken(res.data.access);
       userCtx.setRefreshToken(res.data.refresh);
       const decoded = jwtDecode(res.data.access);
-      console.log(decoded);
-      userCtx.setUserId(decoded.id);
+      console.log(decoded.user_id);
+      userCtx.setUserId(decoded.user_id);
       userCtx.setMyName(decoded.name);
       navigate("/home");
       setLogin(true);
@@ -102,8 +88,12 @@ const Login = () => {
                   ref={passwordRef}
                   placeholder="password"
                 ></input>
-                <button onClick={() => handleUserLogin()}>Login</button>
-                <button onClick={() => setShowRegister(true)}>Register</button>
+                <button className="mt-3" onClick={() => handleUserLogin()}>
+                  Login
+                </button>
+                <button className="mt-1" onClick={() => setShowRegister(true)}>
+                  Register
+                </button>
               </>
             ) : (
               <div className="d-flex flex-column">
@@ -129,7 +119,56 @@ const Login = () => {
             )}
           </div>
           <div className="col-9">
-            <div className="d-flex">Image</div>
+            <div
+              id="carouselAutoplaying"
+              className="carousel slide"
+              data-bs-ride="carousel"
+            >
+              <div className="carousel-inner">
+                <div className="carousel-item active">
+                  <img
+                    src="https://res.cloudinary.com/dotft2n3n/image/upload/v1714064118/foodjio/DSC05454_avbkcj.jpg"
+                    className="d-block w-100"
+                  />
+                </div>
+                <div className="carousel-item">
+                  <img
+                    src="https://res.cloudinary.com/dotft2n3n/image/upload/v1714064484/foodjio/PXL_20230211_060512046_q7nr7f.jpg"
+                    className="d-block w-100"
+                  />
+                </div>
+                <div className="carousel-item">
+                  <img
+                    src="https://res.cloudinary.com/dotft2n3n/image/upload/v1714062413/foodjio/Chinise-food_zqoyas.jpg"
+                    className="d-block w-100"
+                  />
+                </div>
+              </div>
+              <button
+                className="carousel-control-prev"
+                type="button"
+                data-bs-target="#carouselExampleAutoplaying"
+                data-bs-slide="prev"
+              >
+                <span
+                  className="carousel-control-prev-icon"
+                  aria-hidden="true"
+                ></span>
+                <span className="visually-hidden">Previous</span>
+              </button>
+              <button
+                className="carousel-control-next"
+                type="button"
+                data-bs-target="#carouselExampleAutoplaying"
+                data-bs-slide="next"
+              >
+                <span
+                  className="carousel-control-next-icon"
+                  aria-hidden="true"
+                ></span>
+                <span className="visually-hidden">Next</span>
+              </button>
+            </div>
           </div>
         </div>
       </div>

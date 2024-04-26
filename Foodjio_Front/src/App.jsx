@@ -5,13 +5,13 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
 import Topbar from "./pages/Topbar";
-
 import MeetDetails from "./pages/MeetDetails";
+import MeetCanvas from "./pages/MeetCanvas";
 
 function App() {
   const [accessToken, setAccessToken] = useState("");
   const [refreshToken, setRefreshToken] = useState("");
-  const [showUserMenu, setShowUserMenu] = useState("");
+
   const [userId, setUserId] = useState("");
   const [myName, setMyName] = useState("");
 
@@ -36,7 +36,8 @@ function App() {
             <Route path="/" element={<Navigate replace to="/Login" />} />
             <Route path="/login" element={<Login />} />
             <Route path="/home" element={<Home />} />
-            <Route path="meet/:id/" element={<MeetDetails />} />
+            <Route path="/meet/new/" element={<MeetCanvas />} />
+            <Route path="/meet/:id/" element={<MeetDetails />} />
           </Routes>
         </Suspense>
       </UserContext.Provider>

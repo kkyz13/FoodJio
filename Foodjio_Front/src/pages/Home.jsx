@@ -10,6 +10,7 @@ const Home = () => {
   const userCtx = useContext(UserContext);
   const navigate = useNavigate();
   const [meetList, setMeetList] = useState([{}]);
+  const [cuisineType, setCuisineType] = useState([]);
   const [loaded, setLoaded] = useState(false);
   const [fetchLocalStorage, setFetchLocalStorage] = useState(false);
 
@@ -23,14 +24,13 @@ const Home = () => {
       userCtx.setRefreshToken(token.refresh);
 
       //check if access token is expired
-
       const currentTime = Math.floor(Date.now() / 1000); // convert to seconds
       if (decoded.exp < currentTime) {
         console.log("AccessToken has expired");
         navigate("/login");
       }
       console.log(decoded);
-      userCtx.setUserId(decoded.id);
+      userCtx.setUserId(decoded.user_id);
       userCtx.setMyName(decoded.name);
       setFetchLocalStorage(true);
     } else {
@@ -56,6 +56,20 @@ const Home = () => {
     }
   };
 
+  const getCType = async () => {
+    try {
+      const res = await fetch(import.meta.env.VITE_SERVER + "/api/getctype/");
+      if (res.status === 200) {
+        const data = await res.json();
+        console.log(data);
+        setCuisineType(data);
+      }
+    } catch (error) {
+      // console.log(error.message);
+      console.log("Fetch failed");
+    }
+  };
+
   useEffect(() => {
     loginCheck();
   }, []);
@@ -63,24 +77,35 @@ const Home = () => {
   useEffect(() => {
     if (fetchLocalStorage) {
       getMeets();
+      getCType();
     }
   }, [fetchLocalStorage]);
   return (
     <>
       <div className={"display"}>
         <div className="d-flex flex-row justify-content-center">
-          <button>New Jio</button>
+          <button
+            className="newmeetbtn"
+            onClick={() => {
+              navigate("/meet/new/");
+            }}
+          >
+            New Jio
+          </button>
         </div>
         {loaded ? (
-          <div className="d-flex flex-row">
+          <div className="d-flex flex-row flex-wrap">
             {meetList.map((entry, id) => {
               return (
                 <Link to={`/meet/` + entry.id} key={entry.id}>
                   <MeetCard
                     key={entry.id}
+                    author={entry.author.id}
                     title={entry.title}
                     address={entry.address}
                     website={entry.website}
+                    maxnum={entry.maxnum}
+                    currentnum={entry.currentnum}
                     isFull={entry.is_full}
                     active={entry.active}
                     cuisineType={entry.cuisinetype.name}

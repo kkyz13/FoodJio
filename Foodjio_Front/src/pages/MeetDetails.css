@@ -2,7 +2,17 @@
   color: black;
 }
 
-img {
+.meetimg {
   max-height: 300px;
+
+  object-fit: cover;
+  border: white solid 2px;
+}
+
+.buttoncontainer {
+  margin-top: 50px;
+}
+
+.detailcontainer {
   width: 30vw;
 }

@@ -1,12 +1,25 @@
-import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useContext, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import UserContext from "../context/user";
 
 const Topbar = () => {
   const userCtx = useContext(UserContext);
+  const navigate = useNavigate();
 
+  const [renderKey, setRenderKey] = useState(0);
+  const handleLogOut = () => {
+    localStorage.removeItem("user");
+    navigate("/login");
+    setRenderKey(renderKey + 1);
+  };
+  useEffect(() => {
+    console.log("re-render pls");
+  }, [renderKey]);
   return (
-    <div className={`topbar d-flex justify-content-between g-0 m-0 `}>
+    <div
+      className={`topbar d-flex justify-content-between g-0 m-0 `}
+      key={renderKey}
+    >
       <div>
         <Link to={"/home"}>
           <h2 className="align-items-end">FoodJio</h2>
@@ -19,7 +32,7 @@ const Topbar = () => {
           data-bs-toggle="dropdown"
           aria-expanded="false"
         >
-          {userCtx.myName}
+          {"" || userCtx.myName}
         </button>
         <ul class="dropdown-menu">
           <li>
@@ -28,8 +41,14 @@ const Topbar = () => {
             </a>
           </li>
           <li>
-            <a class="dropdown-item" href="#">
-              Another action
+            <a
+              class="dropdown-item"
+              href="#"
+              onClick={() => {
+                handleLogOut();
+              }}
+            >
+              Logout
             </a>
           </li>
           <li>
