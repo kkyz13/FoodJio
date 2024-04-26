@@ -13,7 +13,11 @@ const MeetCard = (props) => {
       <img src={props.imgUrl} className="cardimg" />
       <div className="cardtext">
         <h4>{props.title}</h4>
+        <p className="float-end me-1 fw-normal">
+          {props.currentnum}/{props.maxnum}
+        </p>
         <p className="fs-6 fw-medium">{props.cuisineType}</p>
+
         <hr></hr>
         <p className="">{props.address}</p>
         <p className="fw-light fst-italic">

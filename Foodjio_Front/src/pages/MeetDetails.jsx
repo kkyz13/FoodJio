@@ -160,7 +160,7 @@ const MeetDetails = () => {
             </div>
           </div>
           <div className="detailcontainer mx-2 gx-2 lh-1">
-            <h2 className="fs-2">{meetData.title}</h2>{" "}
+            <h2 className="fs-2">{meetData.title}</h2>
             {isSubscribed && isAuthor && (
               <button className="badge round-pill text-bg-success float-end">
                 edit page
@@ -181,13 +181,24 @@ const MeetDetails = () => {
                 timeZone: "Asia/Singapore",
               }).format(new Date(meetData.meetdatetime))}
             </p>
+            <p>
+              {meetData.website && (
+                <a
+                  href={meetData.website}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Menu / Website
+                </a>
+              )}
+            </p>
             <div className="mt-3">
               <p className="badge rounded-pill text-bg-secondary">
                 Number of People Going:
               </p>
-              <p>
+              <span className="float-end">
                 {meetData.currentnum} / {meetData.maxnum}
-              </p>
+              </span>
             </div>
             <div className="buttoncontainer">
               <button

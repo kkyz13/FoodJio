@@ -16,6 +16,7 @@ const Login = () => {
   const regHpNumRef = useRef();
   const [login, setLogin] = useState();
   const [showRegister, setShowRegister] = useState(false);
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
     localStorage.removeItem("user"); //logout?
@@ -65,6 +66,7 @@ const Login = () => {
         setShowRegister(false);
       } else {
         console.log(data.message);
+        setMessage("Registration failed, one of your fields is invalid.");
       }
     } catch (error) {
       console.log("something really bad has happened");
@@ -96,27 +98,38 @@ const Login = () => {
                 </button>
               </>
             ) : (
-              <div className="d-flex flex-column">
-                <input
-                  type="text"
-                  ref={regEmailRef}
-                  placeholder="email"
-                ></input>
-                <input type="text" ref={regNameRef} placeholder="name"></input>
-                <input
-                  type="text"
-                  ref={regHpNumRef}
-                  placeholder="handphone number"
-                ></input>
-                <input
-                  type="password"
-                  ref={regPasswordRef}
-                  placeholder="password"
-                ></input>
-                <button onClick={() => handleRegister()}>Register</button>
-                <button onClick={() => setShowRegister(false)}>Cancel</button>
-              </div>
+              <>
+                <div className="d-flex flex-column">
+                  <input
+                    type="text"
+                    ref={regEmailRef}
+                    placeholder="email"
+                  ></input>
+                  <input
+                    type="text"
+                    ref={regNameRef}
+                    placeholder="name"
+                  ></input>
+                  <input
+                    type="text"
+                    ref={regHpNumRef}
+                    placeholder="handphone number"
+                  ></input>
+                  <input
+                    type="password"
+                    ref={regPasswordRef}
+                    placeholder="password"
+                  ></input>
+                </div>
+                <button className="mt-3" onClick={() => handleRegister()}>
+                  Register
+                </button>
+                <button className="mt-3" onClick={() => setShowRegister(false)}>
+                  Cancel
+                </button>
+              </>
             )}
+            <p className="text-center">{message}</p>
           </div>
           <div className="col-9">
             <div

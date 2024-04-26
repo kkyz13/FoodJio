@@ -3,12 +3,13 @@
 }
 a {
   font-weight: 500;
-  color: #ffffff;
+  color: #3e000b;
   text-decoration: inherit;
+  transition-duration: 0.5s;
 }
-/* a:hover {
-  color: #53c2f2;
-} */
+a:hover {
+  color: #f25353;
+}
 
 body {
   background-color: #e7e7e7;
