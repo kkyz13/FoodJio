@@ -52,11 +52,19 @@ class get_meets(APIView):
         return Response(serializer.data)
 
 
-class get_active_meets(APIView):
+class get_query_meets(APIView):
     permission_classes = (IsAuthenticated,)
 
     def get(self,request):
-        meet_instance = Meet.objects.filter(active=True)
+        parameters = request.GET.dict()
+        filters = {}
+        if 'active' in parameters:
+            filters['active'] = True
+        if 'isfull' in parameters:
+            filters['is_full'] = True
+        if 'isnotfull' in parameters:
+            filters['is_full'] = False
+        meet_instance = Meet.objects.filter(**filters)
         serializer = GetMeetSerializer(meet_instance, many=True)
         return Response(serializer.data)
 

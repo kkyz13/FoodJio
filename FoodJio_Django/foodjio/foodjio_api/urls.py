@@ -7,7 +7,7 @@ urlpatterns = [
 
     path('meets/', views.get_meets.as_view()),
     path('getctype/', views.get_ctype.as_view()),
-    path('meets/active/', views.get_active_meets.as_view()),
+    path('meets/query/', views.get_query_meets.as_view()),
     path('meets/<str:pk>/', views.get_one_meet.as_view()),
 
     path('meet/add/', views.put_meet.as_view()),
