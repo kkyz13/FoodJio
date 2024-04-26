@@ -7,6 +7,7 @@ import Home from "./pages/Home";
 import Topbar from "./pages/Topbar";
 import MeetDetails from "./pages/MeetDetails";
 import MeetCanvas from "./pages/MeetCanvas";
+import Profile from "./pages/Profile";
 
 function App() {
   const [accessToken, setAccessToken] = useState("");
@@ -39,6 +40,7 @@ function App() {
             <Route path="/meet/new/" element={<MeetCanvas />} />
             <Route path="/meet/:id/update/" element={<MeetCanvas />} />
             <Route path="/meet/:id/" element={<MeetDetails />} />
+            <Route path="/profile/" element={<Profile />}></Route>
           </Routes>
         </Suspense>
       </UserContext.Provider>
