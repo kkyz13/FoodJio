@@ -113,7 +113,7 @@ class patch_meet(APIView):
             serializer.save()
             return Response('meet updated')
         else:
-            return Response(serializer.errors)
+            return Response(serializer.errors, status=400)
 
 class delete_meet(APIView):
     permission_classes = (IsAuthenticated,)

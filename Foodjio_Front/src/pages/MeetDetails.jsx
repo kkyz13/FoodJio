@@ -11,6 +11,7 @@ const MeetDetails = () => {
   const meetId = params.id;
   const fetchData = useFetch();
   const navigate = useNavigate();
+  //==============================//
   const [meetData, setMeetData] = useState({});
   const [isLoaded, setIsLoaded] = useState(false);
   const [isAuthor, setIsAuthor] = useState(false);
@@ -162,7 +163,12 @@ const MeetDetails = () => {
           <div className="detailcontainer mx-2 gx-2 lh-1">
             <h2 className="fs-2">{meetData.title}</h2>
             {isSubscribed && isAuthor && (
-              <button className="badge round-pill text-bg-success float-end">
+              <button
+                onClick={() => {
+                  navigate(`/meet/${meetData.id}/update`);
+                }}
+                className="badge round-pill text-bg-success float-end"
+              >
                 edit page
               </button>
             )}

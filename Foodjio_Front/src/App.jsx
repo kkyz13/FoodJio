@@ -37,6 +37,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/home" element={<Home />} />
             <Route path="/meet/new/" element={<MeetCanvas />} />
+            <Route path="/meet/:id/update/" element={<MeetCanvas />} />
             <Route path="/meet/:id/" element={<MeetDetails />} />
           </Routes>
         </Suspense>

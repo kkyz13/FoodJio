@@ -20,24 +20,24 @@ const Topbar = () => {
         </Link>
       </div>
       {userCtx.myName && (
-        <div class="dropdown">
+        <div className="dropdown">
           <button
-            class="btn dropdownbtn dropdown"
+            className="btn dropdownbtn dropdown"
             type="button"
             data-bs-toggle="dropdown"
             aria-expanded="false"
           >
             {"" || userCtx.myName}
           </button>
-          <ul class="dropdown-menu">
+          <ul className="dropdown-menu">
             <li>
-              <a class="dropdown-item" href="#">
+              <a className="dropdown-item" href="#">
                 Action
               </a>
             </li>
             <li>
               <a
-                class="dropdown-item"
+                className="dropdown-item"
                 href="#"
                 onClick={() => {
                   handleLogOut();
@@ -47,7 +47,7 @@ const Topbar = () => {
               </a>
             </li>
             <li>
-              <a class="dropdown-item" href="#">
+              <a className="dropdown-item" href="#">
                 Something else here
               </a>
             </li>

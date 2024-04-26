@@ -89,6 +89,11 @@ const Login = () => {
                   type="password"
                   ref={passwordRef}
                   placeholder="password"
+                  onKeyDown={(e) => {
+                    if (e.code === "Enter") {
+                      handleUserLogin();
+                    }
+                  }}
                 ></input>
                 <button className="mt-3" onClick={() => handleUserLogin()}>
                   Login

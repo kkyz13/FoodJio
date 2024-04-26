@@ -47,6 +47,7 @@ const Home = () => {
       userCtx.accessToken
     );
     if (res.ok) {
+      console.log(res.data);
       setMeetList(res.data);
       setLoaded(true);
     } else {
