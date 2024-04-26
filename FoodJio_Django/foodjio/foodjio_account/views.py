@@ -30,22 +30,6 @@ class register(APIView):
         else:
             return Response("user created")
 
-
-# class login(APIView):
-#     def post(self, request):
-#         email = request.data['email']
-#         password = request.data['password']
-#
-#         user = Account.objects.filter(email=email).first()
-#         if user is None:
-#             raise AuthenticationFailed('login error')
-#
-#         if not user.check_password(password):
-#             raise AuthenticationFailed('login error')
-#
-#         return Response({'message': 'success'})
-
-
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):

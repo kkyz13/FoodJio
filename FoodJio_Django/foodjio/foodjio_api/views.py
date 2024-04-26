@@ -31,8 +31,9 @@ class seedcuisine(APIView):
             CuisineType.objects.all().delete()
 
             cuisinels = [
-                'Asian', 'Western', 'European', 'South American', 'American', 'Japanese', 'Mediterranean',
-                'Muslim', 'Korean', 'Vietnamese', 'Thai', 'French', 'German', 'Mexican', 'Dessert'
+                'American', 'Asian', 'Chinese', 'Dessert', 'European', 'French', 'German', 'Indian',
+                'Italian', 'Japanese', 'Korean', 'Mediterranean', 'Mexican', 'Muslim', 'South American',
+                'Thai', 'Vietnamese', 'Western'
             ]
             for i, cuisine in enumerate(cuisinels, start=1):
                 CuisineType.objects.get_or_create(id=i, name=cuisine)
@@ -145,6 +146,8 @@ class subscribe_meet(APIView):
         if serializer.is_valid():
             serializer.save()
             meet.currentnum += 1
+            if meet.currentnum == meet.maxnum:
+                meet.is_full = True
             meet.save()
 
             return Response('user subscribed')
@@ -158,13 +161,14 @@ class unsubscribe_meet(APIView):
         user = request.user
         print (meet.author_id)
         if str(meet.author_id) == str(user.id):
-            return Response('you cannot remove yourself from your own meet')
+            return Response({'error': 'You cannot remove yourself from your own meet'}, status=403)
         try:
             subscription = MeetParticipants.objects.get(meet=meet.id, account=user.id)
 
             if subscription:
                 subscription.delete()
                 meet.currentnum -= 1
+                meet.is_full = False
                 meet.save()
 
                 return Response('user unsubscribed')
