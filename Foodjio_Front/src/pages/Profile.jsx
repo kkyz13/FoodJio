@@ -152,7 +152,9 @@ const Profile = () => {
           <input className="col" ref={phoneRef} type="text"></input>
         </div>
         <div className="row m-1">
-          <div className="col-8 text-end">Type in your password to update:</div>
+          <div className="col-8 text-end">
+            Type in your password to update your profile:
+          </div>
           <input className="col" ref={passwordRef} type="password"></input>
         </div>
         {/* <button

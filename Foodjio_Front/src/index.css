@@ -42,7 +42,7 @@ button:hover {
 }
 button:focus,
 button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  outline: 8px auto -webkit-focus-ring-color;
 }
 
 button:disabled {
@@ -50,6 +50,6 @@ button:disabled {
   cursor: not-allowed;
 }
 .dropdownbtn:hover,
-.dropdownbtn:focus {
+.dropdownbtn:focus .dropdownbtn:focus-visible .dropdownbtn {
   color: #f9f9f9;
 }

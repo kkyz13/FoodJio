@@ -59,11 +59,17 @@ class get_query_meets(APIView):
         parameters = request.GET.dict()
         filters = {}
         if 'active' in parameters:
-            filters['active'] = True
+            active_value = request.GET.get('active')
+            if active_value.lower() == 'true':
+                filters['active'] = True
+            elif active_value.lower() == 'false':
+                filters['active'] = False
         if 'isfull' in parameters:
-            filters['is_full'] = True
-        if 'isnotfull' in parameters:
-            filters['is_full'] = False
+            is_full_value = request.GET.get('isfull')
+            if is_full_value.lower() == 'true':
+                filters['is_full'] = True
+            elif is_full_value.lower() == 'false':
+                filters['is_full'] = False
         meet_instance = Meet.objects.filter(**filters)
         serializer = GetMeetSerializer(meet_instance, many=True)
         return Response(serializer.data)

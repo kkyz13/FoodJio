@@ -54,7 +54,7 @@ const Topbar = () => {
             </li>
             <li>
               <a className="dropdown-item" href="#">
-                Under Construction{" "}
+                Under Construction
               </a>
             </li>
           </ul>

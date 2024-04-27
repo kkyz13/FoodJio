@@ -80,11 +80,11 @@ const Login = () => {
   return (
     <>
       {/* <button onClick={() => getCType()}>Test Button</button> */}
-      <div className="display container">
+      <div className="login">
         <div className="row">
-          <div className="leftbox col-3 d-flex flex-column mb-3 align-items-center">
+          <div className="leftbox col-3 g-0 d-flex flex-column align-items-center">
             <div>
-              <h1 className="title">Foodjio</h1>
+              <h1 className="title">Login</h1>
             </div>
             {!showRegister ? (
               <>
@@ -149,11 +149,11 @@ const Login = () => {
             )}
             <p className="text-center">{message}</p>
           </div>
-          <div className="col-9">
+          <div className="col-9 g-0">
             <div
               id="carouselAutoplaying"
-              className="carousel slide"
-              data-bs-ride="carousel"
+              className="carousel slide shadow"
+              data-bs-ride="true"
             >
               <div className="carousel-inner">
                 <div className="carousel-item active">
@@ -164,7 +164,7 @@ const Login = () => {
                 </div>
                 <div className="carousel-item">
                   <img
-                    src="https://res.cloudinary.com/dotft2n3n/image/upload/v1714064484/foodjio/PXL_20230211_060512046_q7nr7f.jpg"
+                    src="https://res.cloudinary.com/dotft2n3n/image/upload/v1714064858/foodjio/DSC05772_crw9my.jpg"
                     className="d-block w-100"
                   />
                 </div>
@@ -178,7 +178,7 @@ const Login = () => {
               <button
                 className="carousel-control-prev"
                 type="button"
-                data-bs-target="#carouselExampleAutoplaying"
+                data-bs-target="#carouselAutoplaying"
                 data-bs-slide="prev"
               >
                 <span
@@ -190,7 +190,7 @@ const Login = () => {
               <button
                 className="carousel-control-next"
                 type="button"
-                data-bs-target="#carouselExampleAutoplaying"
+                data-bs-target="#carouselAutoplaying"
                 data-bs-slide="next"
               >
                 <span

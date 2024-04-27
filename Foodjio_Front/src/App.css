@@ -18,7 +18,9 @@
   user-select: none;
   box-shadow: 3px 3px 2px rgba(63, 62, 65, 0.26);
 }
-
+.login {
+  margin-top: 4rem;
+}
 .topbar h2 {
   margin-top: 0px;
   font-weight: 400;
@@ -42,17 +44,28 @@
   text-wrap: wrap;
   padding: 15px 60px;
 }
+
+.carousel img {
+  height: 800px;
+  width: auto;
+  object-fit: cover;
+  border-radius: 10px;
+}
 .leftbox {
   height: 100vh;
-  margin: 0 auto;
+  margin: 15rem auto;
   vertical-align: middle;
 }
+.leftbox input {
+  border-radius: 8px;
+  border: solid 1px #a64646;
+  padding: 3px;
+  margin: 3px;
+  transition-duration: 0.5s;
+}
 
-.leftbox title {
-  font-family: "League Spartan", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 200;
-  font-style: normal;
+.leftbox input:focus {
+  background: #f1e0e0;
 }
 .meetlist {
   margin-top: 50px;
@@ -98,12 +111,28 @@
   font-size: large;
   padding: 2px 17px;
   position: fixed;
+  left: 45%;
   z-index: 50;
   background-color: rgb(255, 152, 152);
   border: white solid 2px;
   color: black;
 }
 
+.filterbtn {
+  font-family: "League Spartan", sans-serif;
+  font-size: large;
+  padding: 2px 17px;
+  position: fixed;
+  right: 15%;
+  z-index: 50;
+  background-color: rgb(188, 188, 188);
+  border: white solid 2px;
+  color: black;
+}
+
+.radiobutton {
+  accent-color: red;
+}
 .capselector {
   width: 25%;
 }

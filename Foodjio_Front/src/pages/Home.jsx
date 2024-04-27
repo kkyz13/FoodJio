@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import useFetch from "../hooks/useFetch";
 import UserContext from "../context/user";
 import { jwtDecode } from "jwt-decode";
@@ -13,7 +13,8 @@ const Home = () => {
   const [cuisineType, setCuisineType] = useState([]);
   const [loaded, setLoaded] = useState(false);
   const [fetchLocalStorage, setFetchLocalStorage] = useState(false);
-
+  const [formData, setFormData] = useState();
+  const formRef = useRef();
   const loginCheck = () => {
     const loggedInUser = localStorage.getItem("user");
     if (loggedInUser) {
@@ -56,10 +57,33 @@ const Home = () => {
     }
   };
 
+  const getFilteredMeets = async () => {
+    if (formData) {
+      try {
+        const params = new URLSearchParams();
+        for (const [key, value] of formData.entries()) {
+          params.append(key, value);
+        }
+        const queryString = params.toString();
+        // console.log(queryString); // should log the query string
+        const res = await fetchData(
+          `/api/meets/query/?${queryString}`,
+          "GET",
+          undefined,
+          userCtx.accessToken
+        );
+        if (res.ok) {
+          setMeetList(res.data);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
   const getCType = async () => {
     try {
       const res = await fetch(import.meta.env.VITE_SERVER + "/api/getctype/");
-      if (res.status === 200) {
+      if (res.ok) {
         const data = await res.json();
         console.log(data);
         setCuisineType(data);
@@ -69,7 +93,12 @@ const Home = () => {
       console.log("Fetch failed");
     }
   };
-
+  const clearForm = () => {
+    const radioButtons = document.querySelectorAll('input[type="radio"]');
+    radioButtons.forEach((button) => {
+      button.checked = false;
+    });
+  };
   useEffect(() => {
     loginCheck();
   }, []);
@@ -80,18 +109,91 @@ const Home = () => {
       getCType();
     }
   }, [fetchLocalStorage]);
+
+  useEffect(() => {
+    getFilteredMeets();
+  }, [formData]);
   return (
     <>
       <div className={"display"}>
-        <div className="d-flex flex-row justify-content-center">
+        <button
+          className="newmeetbtn"
+          onClick={() => {
+            navigate("/meet/new/");
+          }}
+        >
+          New Jio
+        </button>
+        <div className="d-flex flex-row justify-content-end">
           <button
-            className="newmeetbtn"
-            onClick={() => {
-              navigate("/meet/new/");
-            }}
+            className="filterbtn btn btn-secondary me-5"
+            data-bs-toggle="offcanvas"
+            data-bs-target="#offcanvasRight"
           >
-            New Jio
+            Filter
           </button>
+        </div>
+        <div
+          class="offcanvas offcanvas-end"
+          tabindex="-1"
+          id="offcanvasRight"
+          aria-labelledby="offcanvasRightLabel"
+        >
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasRightLabel">
+              Filter Control Panel
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="offcanvas"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="offcanvas-body">
+            <form
+              ref={formRef}
+              onSubmit={(e) => {
+                e.preventDefault();
+                setFormData(new FormData(formRef.current));
+              }}
+            >
+              <div className="vstack m-3">
+                <label>
+                  <input
+                    class="radiobutton"
+                    type="radio"
+                    name="isfull"
+                    value="false"
+                  ></input>
+                  &nbsp;See non-full meetups
+                </label>
+                <label>
+                  <input
+                    class="radiobutton"
+                    type="radio"
+                    name="isfull"
+                    value="true"
+                  ></input>
+                  &nbsp;See full meetups
+                </label>
+                <div className="mt-3 container d-flex flex-row justify-content-around">
+                  <button type="submit" className="">
+                    Search
+                  </button>
+                  <button
+                    className="text-bg-secondary"
+                    onClick={() => {
+                      getMeets();
+                      clearForm();
+                    }}
+                  >
+                    Reset
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
         </div>
         {loaded ? (
           <div className="meetlist d-flex flex-row flex-wrap">
