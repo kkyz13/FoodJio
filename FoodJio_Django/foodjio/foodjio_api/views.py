@@ -70,6 +70,9 @@ class get_query_meets(APIView):
                 filters['is_full'] = True
             elif is_full_value.lower() == 'false':
                 filters['is_full'] = False
+        if 'author' in parameters:
+            author = request.GET.get('author')
+            filters['author_id'] = author
         meet_instance = Meet.objects.filter(**filters)
         serializer = GetMeetSerializer(meet_instance, many=True)
         return Response(serializer.data)
