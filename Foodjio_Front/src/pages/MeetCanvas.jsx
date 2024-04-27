@@ -38,7 +38,7 @@ const MeetCanvas = () => {
 
       //check if access token is expired
       const currentTime = Math.floor(Date.now() / 1000); // convert to seconds
-      console.log(`${currentTime} vs ${decoded.exp}`);
+
       if (decoded.exp < currentTime) {
         console.log("AccessToken has expired");
         navigate("/login");
@@ -253,14 +253,14 @@ const MeetCanvas = () => {
             <p className="float-end">
               Current number of people going: {meetId && meetData.currentnum}
             </p>
-          )}
-
+          )}{" "}
+          How many to jio?
           <select
             value={capacity}
             className="form-select-sm mb-1 capselector"
             onChange={(e) => setCapacity(e.target.value)}
           >
-            <option defaultValue={2}>Select number of people</option>
+            <option defaultValue={2}>How many gathering?</option>
             {Array.from({ length: 7 }, (_, i) => {
               return <option value={i + 2}>{i + 2}</option>;
             })}

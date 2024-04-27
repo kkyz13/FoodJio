@@ -1,5 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&display=swap");
 
+.title {
+  font-family: "League Spartan", sans-serif;
+}
 .topbar {
   font-family: "League Spartan", sans-serif;
   font-optical-sizing: auto;
@@ -22,6 +25,15 @@
   color: white;
 }
 
+.topbarmol {
+  font-family: "League Spartan", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 200;
+  font-style: normal;
+  color: whitesmoke;
+  background-color: #c64646;
+  height: 50px;
+}
 .display {
   margin-top: 50px;
   width: 100vw;
@@ -93,7 +105,13 @@
 }
 
 .capselector {
-  width: 15%;
+  width: 25%;
+}
+
+.prof {
+  text-align: center;
+  align-items: center;
+  justify-content: center;
 }
 @media (max-width: 676px) {
   .cardimg {

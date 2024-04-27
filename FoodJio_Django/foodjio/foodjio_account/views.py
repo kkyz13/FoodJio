@@ -82,13 +82,25 @@ class update_user(APIView):
             return Response({'error': 'Unauthorized'}, status=403)
 
         serializer = UserSerializer(instance=user, data=request.data, partial=True)
+        if 'old_password' in request.data:
+            password = request.data['old_password']
+            if not user.check_password(password):
+                return Response({'error': 'Incorrect password'}, status=403)
+            if 'new_password' in request.data:
+                new_password = request.data['new_password']
+                user.set_password(new_password)
+                user.save()
+                return Response('password updated')
+
+        else:
+            return Response({'error': 'Missing password'}, status=403)
 
         if serializer.is_valid():
             serializer.save()
             print(f"User after update: {user}")
             return Response('user updated')
         else:
-            return Response(serializer.errors)
+            return Response(serializer.errors, status=400)
 
 
 class delete_user(APIView):

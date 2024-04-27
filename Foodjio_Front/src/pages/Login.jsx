@@ -19,6 +19,10 @@ const Login = () => {
   const [message, setMessage] = useState("");
 
   useEffect(() => {
+    userCtx.setMyName("");
+    userCtx.setUserId;
+    userCtx.setAccessToken("");
+    userCtx.setRefreshToken("");
     localStorage.removeItem("user"); //logout?
   }, []);
 

@@ -129,7 +129,10 @@ class delete_meet(APIView):
     def delete(self, request, pk):
         meet =Meet.objects.get(id=pk)
         user = request.user  # Get the user from the JWT token
-
+        if request.user.is_admin:
+            meet.active = False
+            meet.save()
+            return Response('Admin Privileges: meet made inactive')
         if meet.author.id != user.id:
             return Response({'error': 'You are not authorized to update this meet'}, status=403)
         else:
