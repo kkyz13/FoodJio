@@ -319,7 +319,9 @@ const MeetDetails = () => {
                 meetData.is_full &&
                 "This meet is full, sorry :("}
             </div>
-            {isSubscribed && !isAuthor && "Yay you are going!"}
+            {isSubscribed &&
+              !isAuthor &&
+              "Yay you are going! Wait for the host to contact you when this event is full."}
             <br></br>
             {isSubscribed && !isAuthor && (
               <button

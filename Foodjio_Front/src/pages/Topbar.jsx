@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import UserContext from "../context/user";
-
+import logo from "../assets/makan.png";
 const Topbar = () => {
   const userCtx = useContext(UserContext);
   const navigate = useNavigate();
@@ -16,7 +16,10 @@ const Topbar = () => {
     <div className={`topbar d-flex justify-content-between g-0 m-0 `}>
       <div>
         <Link to={"/home"}>
-          <h2 className="align-items-end">MakanTogether</h2>
+          <div className="hstack">
+            <img src={logo} className="me-1 mb-2" width={`42px`} />
+            <h2 className="m-0 align-items-end">MakanTogether</h2>
+          </div>
         </Link>
       </div>
       {userCtx.myName && (
