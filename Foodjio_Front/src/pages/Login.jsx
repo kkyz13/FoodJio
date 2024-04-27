@@ -102,7 +102,10 @@ const Login = () => {
                 <button className="mt-3" onClick={() => handleUserLogin()}>
                   Login
                 </button>
-                <button className="mt-1" onClick={() => setShowRegister(true)}>
+                <button
+                  className="mt-1 text-bg-success"
+                  onClick={() => setShowRegister(true)}
+                >
                   Register
                 </button>
               </>
@@ -130,10 +133,16 @@ const Login = () => {
                     placeholder="password"
                   ></input>
                 </div>
-                <button className="mt-3" onClick={() => handleRegister()}>
+                <button
+                  className="mt-3 text-bg-success"
+                  onClick={() => handleRegister()}
+                >
                   Register
                 </button>
-                <button className="mt-3" onClick={() => setShowRegister(false)}>
+                <button
+                  className="mt-3 text-bg-secondary"
+                  onClick={() => setShowRegister(false)}
+                >
                   Cancel
                 </button>
               </>

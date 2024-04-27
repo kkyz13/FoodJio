@@ -16,7 +16,7 @@ const Topbar = () => {
     <div className={`topbar d-flex justify-content-between g-0 m-0 `}>
       <div>
         <Link to={"/home"}>
-          <h2 className="align-items-end">FoodJio</h2>
+          <h2 className="align-items-end">MakanTogether</h2>
         </Link>
       </div>
       {userCtx.myName && (
@@ -54,7 +54,7 @@ const Topbar = () => {
             </li>
             <li>
               <a className="dropdown-item" href="#">
-                Something else here
+                Under Construction{" "}
               </a>
             </li>
           </ul>

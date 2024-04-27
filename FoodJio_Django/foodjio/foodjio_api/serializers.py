@@ -40,3 +40,8 @@ class SubscribeSerializer(serializers.ModelSerializer):
     class Meta:
         model = MeetParticipants
         fields = ('meet','account')
+
+class FlagSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Meet
+        fields = ('abuseflag',)

@@ -12,6 +12,7 @@ urlpatterns = [
 
     path('meet/add/', views.put_meet.as_view()),
     path('meet/update/<str:pk>/',views.patch_meet.as_view()),
+    path('meet/flag/<str:pk>/', views.flag_meet.as_view()),
     path('meet/delete/<str:pk>/', views.delete_meet.as_view()),
 
     path('meet/<str:pk>/subscribe/', views.subscribe_meet.as_view()),

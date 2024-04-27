@@ -5,8 +5,10 @@ import { useNavigate, useParams } from "react-router-dom";
 import useFetch from "../hooks/useFetch";
 import UserContext from "../context/user";
 import { jwtDecode } from "jwt-decode";
+import flag from "../assets/flag-triangle-svgrepo-com.svg";
 
 const MeetDetails = () => {
+  let makan_id = 0;
   const params = useParams();
   const meetId = params.id;
   const userCtx = useContext(UserContext);
@@ -14,9 +16,12 @@ const MeetDetails = () => {
   const navigate = useNavigate();
   //==============================//
   const [meetData, setMeetData] = useState({});
+  const [meetParticipants, setMeetParticipants] = useState({});
   const [isLoaded, setIsLoaded] = useState(false);
+  const [contactIsLoaded, setContactIsLoaded] = useState(false);
   const [isAuthor, setIsAuthor] = useState(false);
   const [isSubscribed, setIsSubscribed] = useState(false);
+  const [isFlagged, setIsFlagged] = useState(false);
 
   const [fetchLocalStorage, setFetchLocalStorage] = useState(false);
 
@@ -56,11 +61,14 @@ const MeetDetails = () => {
       userCtx.accessToken
     );
     if (res.ok) {
-      setIsLoaded(true);
       console.log(res.data);
+      setIsLoaded(true);
       setMeetData(res.data);
       if (res.data.author.id === userCtx.userId) {
         setIsAuthor(true);
+      }
+      if (res.data.abuseflag) {
+        setIsFlagged(true);
       }
     } else {
       console.log("something went wrong");
@@ -76,6 +84,8 @@ const MeetDetails = () => {
       userCtx.accessToken
     );
     if (res.ok) {
+      setMeetParticipants(res.data);
+      setContactIsLoaded(true);
       for (const entry of res.data) {
         if (userCtx.userId === entry.id) {
           setIsSubscribed(true);
@@ -119,6 +129,22 @@ const MeetDetails = () => {
       // navigate("/login");
     }
   };
+
+  const flagEvent = async () => {
+    const res = await fetchData(
+      "/api/meet/flag/" + meetId + "/",
+      "PATCH",
+      { abuseflag: !meetData.abuseflag },
+      userCtx.accessToken
+    );
+    if (res.ok) {
+      console.log(res);
+      setIsFlagged(!isFlagged);
+      console.log("event is flagged");
+    } else {
+      console.log("something went wrong");
+    }
+  };
   useEffect(() => {
     loginCheck();
   }, []);
@@ -131,12 +157,13 @@ const MeetDetails = () => {
   return (
     <>
       {isLoaded ? (
-        <div className="display container d-flex flex-row m-50">
-          <div className="gx-0">
+        <div className="display container d-flex flex-row mt-50">
+          <div className="container gx-0">
             <img src={meetData.foodimg} className="meetimg" />
-            <div>About the organizer:</div>
+            <div className="py-1">About the organizer:</div>
+
             <div>
-              <ul className="list-group">
+              <ul className="list-group w-75">
                 <li
                   className="list-group-item"
                   data-bs-toggle="tooltip"
@@ -159,6 +186,31 @@ const MeetDetails = () => {
                   {meetData.author.hpnum || `No number provided`}
                 </li>
               </ul>
+              {!isFlagged ? (
+                <button
+                  onClick={() => {
+                    flagEvent();
+                  }}
+                  className="flagbtn mt-1"
+                >
+                  <img src={flag} width="8%" alt="" className="m-2" />
+                  Flag this event for abuse
+                </button>
+              ) : (
+                <button
+                  onClick={() => {
+                    flagEvent();
+                  }}
+                  className="flagbtn mt-1"
+                >
+                  <img src={flag} width="8%" alt="" className="m-2" />
+                  Unflag this event for abuse
+                </button>
+              )}
+              <p className="badge text-bg-secondary">
+                {isFlagged &&
+                  "An admin is checking if this event is against the rules"}
+              </p>
             </div>
           </div>
           <div className="detailcontainer mx-2 gx-2 lh-1">
@@ -200,16 +252,60 @@ const MeetDetails = () => {
               )}
             </p>
             <div className="mt-3">
-              <p className="badge rounded-pill text-bg-secondary">
-                Number of People Going:
+              <p className="p-3 rounded-pill text-bg-secondary">
+                Number of People Going:{" "}
+                <span className="text-bg-secondary float-end">
+                  {meetData.currentnum} / {meetData.maxnum}
+                </span>
               </p>
-              <span className="float-end">
-                {meetData.currentnum} / {meetData.maxnum}
-              </span>
             </div>
-            <div className="buttoncontainer">
+            {isAuthor && meetData.is_full && (
               <button
-                className="btn btn-danger me-3"
+                title="Click for Contact Info!"
+                className="collapsebutton"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseContact"
+              >
+                Let's Makan! 💌
+              </button>
+            )}
+            {isAuthor && !meetData.is_full && (
+              <button
+                className="collapsebutton"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseContact"
+                disabled={true}
+              >
+                Event needs to be full to see who's going
+              </button>
+            )}
+            <div className="collapse mt-1" id="collapseContact">
+              <div className="card card-body">
+                <div className="d-flex flex-row px-2 justify-content-between">
+                  <div className="mt-1">Name:</div>
+                  <div className="mt-1">email:</div>
+                  <div className="mt-1">mobile:</div>
+                </div>
+                {contactIsLoaded &&
+                  meetParticipants.map((entry, index) => {
+                    return (
+                      <div
+                        className={`card p-2 d-flex flex-row justify-content-between ${
+                          index % 2 && `oddline`
+                        }`}
+                      >
+                        <div className="mt-1">{entry.name}</div>
+                        <div className="mt-1">{entry.email}</div>
+                        <div className="mt-1">{entry.hpnum}</div>
+                      </div>
+                    );
+                  })}
+              </div>
+            </div>
+            <div className="mt-2 buttoncontainer">
+              <button
+                title="Click to join!"
+                className="me-3"
                 disabled={isAuthor || isSubscribed || meetData.is_full}
                 onClick={() => {
                   handleSubscribe();
@@ -227,6 +323,7 @@ const MeetDetails = () => {
             <br></br>
             {isSubscribed && !isAuthor && (
               <button
+                title="Boooo pangseh"
                 className="btn btn-dark mt-3 me-3"
                 onClick={() => {
                   handleUnsubscribe();

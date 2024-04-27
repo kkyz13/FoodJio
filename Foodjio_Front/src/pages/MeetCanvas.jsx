@@ -150,7 +150,7 @@ const MeetCanvas = () => {
       );
       if (res.ok) {
         console.log("event updated successfully!");
-        navigate("/home/");
+        navigate("/meet/" + meetId);
       } else {
         console.log(res);
         return alert("Error: Your title isn't long enough");
@@ -253,8 +253,10 @@ const MeetCanvas = () => {
             <p className="float-end">
               Current number of people going: {meetId && meetData.currentnum}
             </p>
-          )}{" "}
-          How many to jio?
+          )}
+          How many to jio?{" "}
+          {meetId &&
+            "You cannot set the capicity lower than the number of people already going"}
           <select
             value={capacity}
             className="form-select-sm mb-1 capselector"

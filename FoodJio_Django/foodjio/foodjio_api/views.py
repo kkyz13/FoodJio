@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import CuisineType, Meet, MeetParticipants
-from .serializers import MeetSerializer, CuisineSerializer, SubscribeSerializer, GetMeetSerializer
+from .serializers import MeetSerializer, CuisineSerializer, SubscribeSerializer, GetMeetSerializer, FlagSerializer
 from foodjio_account.models import Account
 from foodjio_account.serializers import AuthorSerializer
 from rest_framework.permissions import IsAuthenticated
@@ -122,6 +122,18 @@ class patch_meet(APIView):
             return Response('meet updated')
         else:
             return Response(serializer.errors, status=400)
+
+class flag_meet(APIView):
+    permission_classes = (IsAuthenticated,)
+    def patch(self, request, pk):
+        meet = Meet.objects.get(id=pk)
+        serializer = FlagSerializer(instance=meet, data=request.data,)
+        if serializer.is_valid():
+            serializer.save()
+            return Response('meet flagged')
+        else:
+            return Response(serializer.errors, status=400)
+
 
 class delete_meet(APIView):
     permission_classes = (IsAuthenticated,)

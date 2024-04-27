@@ -45,6 +45,10 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+button:disabled {
+  opacity: 75%;
+  cursor: not-allowed;
+}
 .dropdownbtn:hover,
 .dropdownbtn:focus {
   color: #f9f9f9;

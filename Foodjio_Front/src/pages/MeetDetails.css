@@ -10,7 +10,7 @@
 }
 
 .detailcontainer {
-  width: 45vw;
+  width: 65vw;
 }
 
 .titlewriter {
@@ -25,8 +25,17 @@
 .addresswriter {
   padding: 2px 10px;
   width: 75%;
-
   font-weight: 400;
   border: none;
   border-radius: 5px;
+}
+
+.oddline {
+  background-color: rgb(244, 220, 220);
+}
+
+.flagbtn {
+  height: 10%;
+  width: 50%;
+  padding: 0px;
 }
