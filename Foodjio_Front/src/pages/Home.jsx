@@ -65,7 +65,7 @@ const Home = () => {
           params.append(key, value);
         }
         const queryString = params.toString();
-        // console.log(queryString); // should log the query string
+        console.log(queryString); // should log the query string
         const res = await fetchData(
           `/api/meets/query/?${queryString}`,
           "GET",
@@ -74,7 +74,7 @@ const Home = () => {
         );
         if (res.ok) {
           setMeetList(res.data);
-        }
+        } else console.log(res);
       } catch (error) {
         console.error(error);
       }
@@ -177,6 +177,12 @@ const Home = () => {
                   ></input>
                   &nbsp;See full meetups
                 </label>
+                <select className="form-select mb-1 w-75" name="cuisinetype">
+                  <option value={0}>Select cuisine</option>
+                  {cuisineType.map((entry, id) => {
+                    return <option value={entry.id}>{entry.name}</option>;
+                  })}
+                </select>
                 <div className="mt-3 container d-flex flex-row justify-content-around">
                   <button type="submit" className="">
                     Search
@@ -197,25 +203,31 @@ const Home = () => {
         </div>
         {loaded ? (
           <div className="meetlist d-flex flex-row flex-wrap">
-            {meetList.map((entry, id) => {
-              return (
-                <Link to={`/meet/` + entry.id} key={entry.id}>
-                  <MeetCard
-                    key={entry.id}
-                    author={entry.author.id}
-                    title={entry.title}
-                    address={entry.address}
-                    website={entry.website}
-                    maxnum={entry.maxnum}
-                    currentnum={entry.currentnum}
-                    isFull={entry.is_full}
-                    active={entry.active}
-                    cuisineType={entry.cuisinetype.name}
-                    imgUrl={entry.foodimg}
-                  />
-                </Link>
-              );
-            })}
+            {meetList.length > 0 ? (
+              meetList.map((entry, id) => {
+                return (
+                  <Link to={`/meet/` + entry.id} key={entry.id}>
+                    <MeetCard
+                      key={entry.id}
+                      author={entry.author.id}
+                      title={entry.title}
+                      address={entry.address}
+                      website={entry.website}
+                      maxnum={entry.maxnum}
+                      currentnum={entry.currentnum}
+                      isFull={entry.is_full}
+                      active={entry.active}
+                      cuisineType={entry.cuisinetype.name}
+                      imgUrl={entry.foodimg}
+                    />
+                  </Link>
+                );
+              })
+            ) : (
+              <div className="display-6">
+                You need to be less picky with your food.
+              </div>
+            )}
           </div>
         ) : (
           <div>Loading...</div>

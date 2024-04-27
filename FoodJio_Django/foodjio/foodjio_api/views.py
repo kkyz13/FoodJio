@@ -73,6 +73,10 @@ class get_query_meets(APIView):
         if 'author' in parameters:
             author = request.GET.get('author')
             filters['author_id'] = author
+        if 'cuisinetype' in parameters:
+            cuisinetype_id = request.GET.get('cuisinetype')
+            if cuisinetype_id != '0':
+                filters['cuisinetype_id'] = cuisinetype_id
         meet_instance = Meet.objects.filter(**filters)
         serializer = GetMeetSerializer(meet_instance, many=True)
         return Response(serializer.data)

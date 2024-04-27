@@ -215,7 +215,6 @@ const MeetCanvas = () => {
           ></input>
           <select
             className="form-select mb-1 w-75"
-            aria-label="Default select example"
             value={selectedCuisineId}
             onChange={(e) => setSelectedCuisineId(e.target.value)}
           >
