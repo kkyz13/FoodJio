@@ -229,6 +229,19 @@ const MeetCanvas = () => {
             type="text"
             placeholder="address"
           ></input>
+          <button
+            onClick={() => {
+              window.open(
+                `https://maps.google.com/maps?q=${encodeURIComponent(
+                  addressRef.current.value
+                )}&region=sg`,
+                "_blank"
+              );
+            }}
+            className="badge my-1 w-25 text-wrap float-end"
+          >
+            Test your address on Google Maps
+          </button>
           <div className="mb-1">
             <input
               readOnly={userCtx.role === "user" ? true : false}

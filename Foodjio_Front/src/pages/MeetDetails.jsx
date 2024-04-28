@@ -214,6 +214,7 @@ const MeetDetails = () => {
                 </ul>
                 {!isFlagged ? (
                   <button
+                    disabled={!isActive}
                     onClick={() => {
                       flagEvent();
                     }}
@@ -224,6 +225,7 @@ const MeetDetails = () => {
                   </button>
                 ) : (
                   <button
+                    disabled={!isActive}
                     onClick={() => {
                       flagEvent();
                     }}
@@ -279,8 +281,17 @@ const MeetDetails = () => {
                 </button>
               )}
               <hr></hr>
-              <p className="fw-normal">{meetData.address}</p>
-              <p>
+              <a
+                className="m-0"
+                href={`https://maps.google.com/maps?q=${encodeURIComponent(
+                  meetData.address
+                )}&region=sg`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {meetData.address}
+              </a>
+              <p className="mt-3">
                 {new Intl.DateTimeFormat("en-GB", {
                   dateStyle: "full",
                   timeZone: "Asia/Singapore",
@@ -303,8 +314,8 @@ const MeetDetails = () => {
                   </a>
                 )}
               </p>
-              <div className="mt-3">
-                <p className="p-3 rounded-pill text-bg-warning">
+              <div className="hstack mt-3">
+                <p className="p-3 rounded-pill text-bg-warning w-50">
                   Number of People Going:{" "}
                   <span className="float-end">
                     {meetData.currentnum} / {meetData.maxnum}
@@ -322,7 +333,10 @@ const MeetDetails = () => {
                 </button>
               )}
               {isAuthor && !meetData.is_full && isActive && (
-                <button className="collapsebutton" disabled={true}>
+                <button
+                  className="collapsebutton text-bg-secondary"
+                  disabled={true}
+                >
                   When full you can see who's coming!
                 </button>
               )}

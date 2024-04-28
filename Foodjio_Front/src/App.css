@@ -26,9 +26,7 @@
   user-select: none;
   box-shadow: 3px 3px 2px rgba(63, 62, 65, 0.26);
 }
-.admin {
-  background-color: #380808;
-}
+
 .login {
   margin-top: 4rem;
 }
@@ -165,6 +163,15 @@
   text-align: center;
   align-items: center;
   justify-content: center;
+}
+
+/* ADMIN ROLE */
+.admin {
+  background-color: #380808;
+  font-family: "Courier New", Courier, monospace;
+  font-weight: bold;
+  font-size: 1.5rem;
+  color: white;
 }
 @media (max-width: 676px) {
   .cardimg {

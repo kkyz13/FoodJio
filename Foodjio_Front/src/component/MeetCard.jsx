@@ -22,7 +22,8 @@ const MeetCard = (props) => {
         <hr></hr>
         <p className="">{props.address}</p>
         <p className="smallprint fst-italic">
-          {props.isFull && "this event is full"}
+          {props.isFull && "this event is full 👯"}
+          {!props.active && "this event is inactive ❌"}
         </p>
         <p className="smallprint fst-italic">
           {props.author === userCtx.userId ? "This is your event" : ""}

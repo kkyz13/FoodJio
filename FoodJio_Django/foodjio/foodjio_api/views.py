@@ -47,9 +47,16 @@ class get_meets(APIView):
     permission_classes = (IsAuthenticated,)
 
     def get(self, request):
-        meet_instance = Meet.objects.all()
-        serializer = GetMeetSerializer(meet_instance, many=True)
-        return Response(serializer.data)
+        user_id = request.user.id  # Get the user ID from the JWT token
+        user = Account.objects.get(id=user_id)  # Get the user object from the Account model
+        if user.is_admin:
+            meet_instance = Meet.objects.all()
+            serializer = GetMeetSerializer(meet_instance, many=True)
+            return Response(serializer.data)
+        else:
+            meet_instance = Meet.objects.filter(active=True)
+            serializer = GetMeetSerializer(meet_instance, many=True)
+            return Response(serializer.data)
 
 
 class get_query_meets(APIView):
