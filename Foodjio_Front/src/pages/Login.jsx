@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import useFetch from "../hooks/useFetch";
 import { jwtDecode } from "jwt-decode";
 import UserContext from "../context/user";
+import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import { Carousel } from "react-responsive-carousel";
 import logo from "../assets/makan.png";
 
 const Login = () => {
@@ -157,56 +159,25 @@ const Login = () => {
             </div>
           </div>
           <div className="col-9 g-0">
-            <div
-              id="carouselAutoplaying"
-              className="carousel slide shadow"
-              data-bs-ride="true"
+            <Carousel
+              autoPlay={true}
+              infiniteLoop={true}
+              showStatus={false}
+              interval={4000}
             >
-              <div className="carousel-inner">
-                <div className="carousel-item active">
-                  <img
-                    src="https://res.cloudinary.com/dotft2n3n/image/upload/v1714064118/foodjio/DSC05454_avbkcj.jpg"
-                    className="d-block w-100"
-                  />
-                </div>
-                <div className="carousel-item">
-                  <img
-                    src="https://res.cloudinary.com/dotft2n3n/image/upload/v1714064858/foodjio/DSC05772_crw9my.jpg"
-                    className="d-block w-100"
-                  />
-                </div>
-                <div className="carousel-item">
-                  <img
-                    src="https://res.cloudinary.com/dotft2n3n/image/upload/v1714062413/foodjio/Chinise-food_zqoyas.jpg"
-                    className="d-block w-100"
-                  />
-                </div>
+              <div>
+                <img src="https://res.cloudinary.com/dotft2n3n/image/upload/v1714064118/foodjio/DSC05454_avbkcj.jpg" />
+                <p className="legend">Legend 1</p>
               </div>
-              <button
-                className="carousel-control-prev"
-                type="button"
-                data-bs-target="#carouselAutoplaying"
-                data-bs-slide="prev"
-              >
-                <span
-                  className="carousel-control-prev-icon"
-                  aria-hidden="true"
-                ></span>
-                <span className="visually-hidden">Previous</span>
-              </button>
-              <button
-                className="carousel-control-next"
-                type="button"
-                data-bs-target="#carouselAutoplaying"
-                data-bs-slide="next"
-              >
-                <span
-                  className="carousel-control-next-icon"
-                  aria-hidden="true"
-                ></span>
-                <span className="visually-hidden">Next</span>
-              </button>
-            </div>
+              <div>
+                <img src="https://res.cloudinary.com/dotft2n3n/image/upload/v1714064484/foodjio/PXL_20230211_060512046_q7nr7f.jpg" />
+                <p className="legend">Legend 2</p>
+              </div>
+              <div>
+                <img src="https://res.cloudinary.com/dotft2n3n/image/upload/v1714064773/foodjio/the-best-top-10-indian-dishes_olmw6n.jpg" />
+                <p className="legend">Legend 3</p>
+              </div>
+            </Carousel>
           </div>
         </div>
       </div>
