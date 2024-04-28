@@ -19,6 +19,7 @@ urlpatterns = [
     path('meet/<str:pk>/unsubscribe/', views.unsubscribe_meet.as_view()),
 
     path('participant/count/', views.get_all_participants.as_view()),
-    path('participant/<str:pk>/count/', views.get_meet_participants.as_view())
+    path('participant/<str:pk>/count/', views.get_meet_participants.as_view()),
+    path('participant/<str:pk>/meet/', views.get_meet_for_one_participant.as_view())
 ]
 

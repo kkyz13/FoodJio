@@ -10,14 +10,14 @@ const Topbar = () => {
     localStorage.removeItem("user");
     navigate("/login");
     userCtx.setMyName("");
-    userCtx.setIsAdmin("false");
-    userCtx.setUserId("false");
+    userCtx.setIsAdmin(false);
+    userCtx.setUserId("");
   };
 
   return (
     <div
       className={`topbar d-flex justify-content-between g-0 m-0 ${
-        userCtx.isAdmin && "admin"
+        userCtx.isAdmin ? "admin" : ""
       }`}
     >
       <div>

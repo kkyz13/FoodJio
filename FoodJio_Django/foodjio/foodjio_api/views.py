@@ -250,3 +250,21 @@ class get_meet_participants(APIView):
         serialized_users = AuthorSerializer(users, many=True).data
 
         return Response(serialized_users)
+
+class get_meet_for_one_participant(APIView):
+    def get(self, request, pk):
+        meet_participants = MeetParticipants.objects.filter(account_id=pk).values('meet_id')
+        meet_ids = [entry['meet_id'] for entry in meet_participants]
+
+        if not meet_ids:
+            return Response({"error": "No meets found for account {}".format(pk)})
+
+        meets = Meet.objects.filter(id__in=meet_ids)
+        serialized_meets = GetMeetSerializer(meets, many=True).data
+        for entry in serialized_meets:
+            print (entry['author']['id'])
+            if pk == entry['author']['id']:
+                entry['is_going'] = False
+            else:
+                entry['is_going'] = True
+        return Response(serialized_meets)
