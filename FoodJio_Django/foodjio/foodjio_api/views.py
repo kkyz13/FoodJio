@@ -153,8 +153,10 @@ class delete_meet(APIView):
 
     def delete(self, request, pk):
         meet =Meet.objects.get(id=pk)
-        user = request.user  # Get the user from the JWT token
-        if request.user.is_admin:
+        user_id = request.user.id  # Get the user ID from the JWT token
+        user = Account.objects.get(id=user_id)  # Get the user object from the Account model
+
+        if user.is_admin:
             if meet.active == True:
                 meet.active = False
                 meet.save()

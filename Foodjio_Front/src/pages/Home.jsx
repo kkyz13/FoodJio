@@ -49,7 +49,6 @@ const Home = () => {
       userCtx.accessToken
     );
     if (res.ok) {
-      console.log(res.data);
       setMeetList(res.data);
       setLoaded(true);
     } else {
@@ -86,7 +85,6 @@ const Home = () => {
       const res = await fetch(import.meta.env.VITE_SERVER + "/api/getctype/");
       if (res.ok) {
         const data = await res.json();
-        console.log(data);
         setCuisineType(data);
       }
     } catch (error) {
