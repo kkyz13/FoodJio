@@ -40,9 +40,10 @@ const Login = () => {
       userCtx.setRefreshToken(res.data.refresh);
 
       const decoded = jwtDecode(res.data.access);
-      console.log(decoded.user_id);
+      console.log(decoded);
       userCtx.setUserId(decoded.user_id);
       userCtx.setMyName(decoded.name);
+      userCtx.setProfilePic(decoded.img);
       navigate("/home");
       setLogin(true);
     } else {
@@ -87,7 +88,6 @@ const Login = () => {
   };
   return (
     <>
-      {/* <button onClick={() => getCType()}>Test Button</button> */}
       <div className="login">
         <div className="row">
           <div className="leftbox col-3 g-0 d-flex flex-column align-items-center">

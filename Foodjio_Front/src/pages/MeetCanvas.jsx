@@ -183,7 +183,10 @@ const MeetCanvas = () => {
           {imgUrl && <img src={imgUrl} />}
           {customUpload && (
             <>
-              <UploadWidget setImgUrl={setImgUrl}></UploadWidget>
+              <UploadWidget
+                setImgUrl={setImgUrl}
+                uploadName={"fsb8i2rw"}
+              ></UploadWidget>
             </>
           )}
           {!customUpload ? (

@@ -37,6 +37,7 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         token["name"] = user.name
         token["email"] = user.email
         token["is_admin"] = user.is_superuser
+        token["img"] = user.img
         if user.last_login:
             token['last_login'] = user.last_login.strftime('%d/%m/%Y')
         else:
@@ -141,10 +142,12 @@ class JwtDetails(APIView):
 
             is_admin = account.is_admin
             username = account.name
+            img = account.img
             # Add isAdmin to the response payload
             payload = token.payload
             payload['isAdmin'] = is_admin
             payload['name'] = username
+            payload['img'] = img
             print(response)
             print(account)
             print(account.id)

@@ -36,7 +36,10 @@ const Topbar = () => {
             data-bs-toggle="dropdown"
             aria-expanded="false"
           >
-            {"" || userCtx.myName}
+            {userCtx.myName}{" "}
+            {userCtx.profilePic && (
+              <img src={userCtx.profilePic} className="smprofilepic" />
+            )}
           </button>
           <ul className="dropdown-menu">
             <li>

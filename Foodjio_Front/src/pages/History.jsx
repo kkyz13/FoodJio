@@ -116,7 +116,7 @@ const History = () => {
               })
             ) : (
               <div className="display-6">
-                You need to be less picky with your food.
+                You haven't made any interactions yet.
               </div>
             )}
           </div>
@@ -124,6 +124,7 @@ const History = () => {
       ) : (
         <div>Loading:</div>
       )}
+      <hr></hr>
       <div className="title m-0">Your Meets: </div>
 
       {loaded ? (
@@ -151,9 +152,7 @@ const History = () => {
                 );
               })
             ) : (
-              <div className="display-6">
-                You need to be less picky with your food.
-              </div>
+              <div className="display-6">You haven't made any plans.</div>
             )}
           </div>
         </>

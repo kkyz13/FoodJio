@@ -16,6 +16,7 @@ function App() {
 
   const [userId, setUserId] = useState("");
   const [myName, setMyName] = useState("");
+  const [profilePic, setProfilePic] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
 
   //==============ROUTER BLOCK==============//
@@ -33,6 +34,8 @@ function App() {
           setMyName,
           isAdmin,
           setIsAdmin,
+          profilePic,
+          setProfilePic,
         }}
       >
         <Suspense fallback={<h1>Loading...</h1>}>

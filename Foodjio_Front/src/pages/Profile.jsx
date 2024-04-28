@@ -12,6 +12,7 @@ const Profile = () => {
   const navigate = useNavigate();
 
   const [myData, setMyData] = useState([]);
+  const [imgUrl, setImgUrl] = useState("");
   const emailRef = useRef();
   const nameRef = useRef();
   const phoneRef = useRef();
@@ -74,6 +75,7 @@ const Profile = () => {
             email: emailRef.current.value,
             name: nameRef.current.value,
             hpnum: phoneRef.current.value,
+            img: imgUrl,
           },
           userCtx.accessToken
         );
@@ -134,28 +136,36 @@ const Profile = () => {
     phoneRef.current.value = myData.hpnum;
   }, [myData]);
 
+  //-------------------------RENDER BLOCK----------------------//
   return (
     <div className="display container">
-      <div className="grid text-end">
+      <div className="d-flex flex-column text-center">
+        <div>{imgUrl && <img src={imgUrl} className="profilepic m-5" />}</div>
+        <div className="m-3 mx-5">
+          <UploadWidget
+            setImgUrl={setImgUrl}
+            uploadName={"w5tcmue1"}
+          ></UploadWidget>
+        </div>
         <h2>Despite Everything, It's still you.</h2>
         {message && `${message}`}
-        <div className="row m-1">
-          <div className="col-8 text-end">Email:</div>
-          <input className="col" disabled ref={emailRef} type="text"></input>
+        <div className="row hstack m-1">
+          <div className="col-5 text-end">Email:</div>
+          <input className="col-4" disabled ref={emailRef} type="text"></input>
         </div>
-        <div className="row m-1">
-          <div className="col-8 text-end">Name:</div>
-          <input className="col" ref={nameRef} type="text"></input>
+        <div className="row hstack m-1">
+          <div className="col-5 text-end">Name:</div>
+          <input className="col-4" ref={nameRef} type="text"></input>
         </div>
-        <div className="row m-1">
-          <div className="col-8 text-end">Mobile:</div>
-          <input className="col" ref={phoneRef} type="text"></input>
+        <div className="row hstack m-1">
+          <div className="col-5 text-end">Mobile:</div>
+          <input className="col-4" ref={phoneRef} type="text"></input>
         </div>
-        <div className="row m-1">
-          <div className="col-8 text-end">
+        <div className="row hstack m-1">
+          <div className="col-5 text-end">
             Type in your password to update your profile:
           </div>
-          <input className="col" ref={passwordRef} type="password"></input>
+          <input className="col-4" ref={passwordRef} type="password"></input>
         </div>
         {/* <button
           data-bs-toggle="modal"
@@ -165,9 +175,11 @@ const Profile = () => {
         >
           Change password
         </button> */}
-        <button data-bs-toggle="modal" data-bs-target="#updateModal">
-          Update
-        </button>
+        <div className="container my-3">
+          <button data-bs-toggle="modal" data-bs-target="#updateModal">
+            Update
+          </button>
+        </div>
 
         {/* <!-- Update Logout Modal --> */}
         <div className="modal fade" id="updateModal" tabIndex="-1">

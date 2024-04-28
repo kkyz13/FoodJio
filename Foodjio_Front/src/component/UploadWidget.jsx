@@ -9,7 +9,7 @@ const UploadWidget = (props) => {
     widgetRef.current = cloudinaryRef.current.createUploadWidget(
       {
         cloudName: "dotft2n3n",
-        uploadPreset: "fsb8i2rw",
+        uploadPreset: props.uploadName,
       },
       function (error, result) {
         console.log(result);
