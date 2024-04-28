@@ -10,10 +10,16 @@ const Topbar = () => {
     localStorage.removeItem("user");
     navigate("/login");
     userCtx.setMyName("");
+    userCtx.setIsAdmin("false");
+    userCtx.setUserId("false");
   };
 
   return (
-    <div className={`topbar d-flex justify-content-between g-0 m-0 `}>
+    <div
+      className={`topbar d-flex justify-content-between g-0 m-0 ${
+        userCtx.isAdmin && "admin"
+      }`}
+    >
       <div>
         <Link to={"/home"}>
           <div className="hstack">
@@ -49,15 +55,21 @@ const Topbar = () => {
                 className="dropdown-item"
                 href="#"
                 onClick={() => {
+                  navigate("/history/");
+                }}
+              >
+                Jio History
+              </a>
+            </li>
+            <li>
+              <a
+                className="dropdown-item logout"
+                href="#"
+                onClick={() => {
                   handleLogOut();
                 }}
               >
                 Logout
-              </a>
-            </li>
-            <li>
-              <a className="dropdown-item" href="#">
-                Under Construction
               </a>
             </li>
           </ul>

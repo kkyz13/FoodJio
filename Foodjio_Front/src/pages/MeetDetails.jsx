@@ -180,6 +180,15 @@ const MeetDetails = () => {
 
               <div>
                 <ul className="list-group w-75">
+                  {userCtx.isAdmin && (
+                    <li
+                      className="list-group-item"
+                      data-bs-toggle="tooltip"
+                      data-bs-title="author_id"
+                    >
+                      {meetData.author.id}
+                    </li>
+                  )}
                   <li
                     className="list-group-item"
                     data-bs-toggle="tooltip"
@@ -231,6 +240,16 @@ const MeetDetails = () => {
             </div>
             <div className="col-7 mx-2 gx-2 lh-1">
               <h2 className="fs-2">{meetData.title}</h2>
+              {userCtx.isAdmin && (
+                <button
+                  className={`${
+                    isActive ? "text-bg-dark" : "text-bg-success"
+                  } float-end`}
+                  onClick={() => deleteMeet()}
+                >
+                  {isActive ? "Delete" : "Restore"}
+                </button>
+              )}
               {isSubscribed && isAuthor && (
                 <>
                   <button

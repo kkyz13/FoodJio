@@ -33,6 +33,7 @@ const Home = () => {
       console.log(decoded);
       userCtx.setUserId(decoded.user_id);
       userCtx.setMyName(decoded.name);
+      userCtx.setIsAdmin(decoded.is_admin);
       setFetchLocalStorage(true);
     } else {
       console.log("local storage invalid");
@@ -113,6 +114,8 @@ const Home = () => {
   useEffect(() => {
     getFilteredMeets();
   }, [formData]);
+
+  //===========RENDER BLOCK====================================//
   return (
     <>
       <div className={"display"}>
@@ -222,6 +225,7 @@ const Home = () => {
                       isFull={entry.is_full}
                       active={entry.active}
                       cuisineType={entry.cuisinetype.name}
+                      flag={entry.abuseflag}
                       imgUrl={entry.foodimg}
                     />
                   </Link>

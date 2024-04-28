@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import useFetch from "../hooks/useFetch";
 import { jwtDecode } from "jwt-decode";
 import UserContext from "../context/user";
+import logo from "../assets/makan.png";
 
 const Login = () => {
   const fetchData = useFetch();
@@ -32,10 +33,10 @@ const Login = () => {
       password: passwordRef.current.value,
     });
     if (res.ok) {
-      console.log(res.data);
       localStorage.setItem("user", JSON.stringify(res.data));
       userCtx.setAccessToken(res.data.access);
       userCtx.setRefreshToken(res.data.refresh);
+
       const decoded = jwtDecode(res.data.access);
       console.log(decoded.user_id);
       userCtx.setUserId(decoded.user_id);
@@ -83,8 +84,12 @@ const Login = () => {
       <div className="login">
         <div className="row">
           <div className="leftbox col-3 g-0 d-flex flex-column align-items-center">
+            <p>Finding people with the same taste as you</p>
             <div>
-              <h1 className="title">Login</h1>
+              <img src={logo} alt="MakanTogether" />
+            </div>
+            <div>
+              <h1 className="title">MakanTogether</h1>
             </div>
             {!showRegister ? (
               <>
@@ -111,28 +116,23 @@ const Login = () => {
               </>
             ) : (
               <>
-                <div className="d-flex flex-column">
-                  <input
-                    type="text"
-                    ref={regEmailRef}
-                    placeholder="email"
-                  ></input>
-                  <input
-                    type="text"
-                    ref={regNameRef}
-                    placeholder="name"
-                  ></input>
-                  <input
-                    type="text"
-                    ref={regHpNumRef}
-                    placeholder="handphone number"
-                  ></input>
-                  <input
-                    type="password"
-                    ref={regPasswordRef}
-                    placeholder="password"
-                  ></input>
-                </div>
+                <input
+                  type="text"
+                  ref={regEmailRef}
+                  placeholder="email"
+                ></input>
+                <input type="text" ref={regNameRef} placeholder="name"></input>
+                <input
+                  type="text"
+                  ref={regHpNumRef}
+                  placeholder="mobile number (optional)"
+                ></input>
+                <input
+                  type="password"
+                  ref={regPasswordRef}
+                  placeholder="password"
+                ></input>
+
                 <button
                   className="mt-3 text-bg-success"
                   onClick={() => handleRegister()}

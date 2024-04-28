@@ -2,6 +2,7 @@
 
 .title {
   font-family: "League Spartan", sans-serif;
+  font-size: xx-large;
 }
 .login {
   position: fixed;
@@ -25,8 +26,14 @@
   user-select: none;
   box-shadow: 3px 3px 2px rgba(63, 62, 65, 0.26);
 }
+.admin {
+  background-color: #380808;
+}
 .login {
   margin-top: 4rem;
+}
+.logout:hover {
+  color: #6e1111;
 }
 .topbar h2 {
   margin-top: 0px;
@@ -43,11 +50,20 @@
   background-color: #c64646;
   height: 50px;
 }
+
+.btn.show {
+  background-color: #f1e0e0;
+  border: none;
+}
+.btn.show:hover {
+  background-color: #f1e0e0;
+  border: none;
+  color: black;
+}
 .display {
   margin-top: 50px;
   width: 100vw;
   overflow-x: hidden;
-
   text-wrap: wrap;
   padding: 15px 60px;
 }
@@ -60,12 +76,13 @@
 }
 .leftbox {
   height: 100vh;
-  margin: 15rem auto;
+  margin: 13rem auto;
   vertical-align: middle;
 }
 .leftbox input {
   border-radius: 8px;
   border: solid 1px #a64646;
+  width: 70%;
   padding: 3px;
   margin: 3px;
   transition-duration: 0.5s;
@@ -94,6 +111,9 @@
 }
 .author {
   background-color: rgb(238, 252, 217);
+}
+.flagged {
+  background-color: #9e4b4b;
 }
 .cardimg {
   width: 250px;
@@ -137,9 +157,6 @@
   color: black;
 }
 
-.radiobutton {
-  accent-color: red;
-}
 .capselector {
   width: 25%;
 }

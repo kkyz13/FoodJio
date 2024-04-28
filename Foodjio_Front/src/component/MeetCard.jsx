@@ -6,9 +6,10 @@ const MeetCard = (props) => {
 
   return (
     <div
-      className={`meetcard ${props.isFull ? "full" : ``} ${
+      className={`meetcard ${props.isFull ? "full" : ""} ${
         props.author === userCtx.userId ? "author" : ""
-      }`}
+      }
+      ${userCtx.isAdmin && props.flag ? "flagged" : ""}`}
     >
       <img src={props.imgUrl} className="cardimg" />
       <div className="cardtext">

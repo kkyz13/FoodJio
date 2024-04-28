@@ -4,6 +4,7 @@ import React, { Suspense, useEffect, useState } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
+import History from "./pages/History";
 import Topbar from "./pages/Topbar";
 import MeetDetails from "./pages/MeetDetails";
 import MeetCanvas from "./pages/MeetCanvas";
@@ -15,6 +16,7 @@ function App() {
 
   const [userId, setUserId] = useState("");
   const [myName, setMyName] = useState("");
+  const [isAdmin, setIsAdmin] = useState(false);
 
   //==============ROUTER BLOCK==============//
   return (
@@ -29,6 +31,8 @@ function App() {
           setUserId,
           myName,
           setMyName,
+          isAdmin,
+          setIsAdmin,
         }}
       >
         <Suspense fallback={<h1>Loading...</h1>}>
@@ -37,6 +41,7 @@ function App() {
             <Route path="/" element={<Navigate replace to="/Login" />} />
             <Route path="/login" element={<Login />} />
             <Route path="/home" element={<Home />} />
+            <Route path="/history" element={<History />} />
             <Route path="/meet/new/" element={<MeetCanvas />} />
             <Route path="/meet/:id/update/" element={<MeetCanvas />} />
             <Route path="/meet/:id/" element={<MeetDetails />} />
