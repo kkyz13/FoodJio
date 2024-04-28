@@ -3,6 +3,13 @@
 .title {
   font-family: "League Spartan", sans-serif;
 }
+.login {
+  position: fixed;
+  overflow: hidden;
+
+  height: 100%;
+  width: 100%;
+}
 .topbar {
   font-family: "League Spartan", sans-serif;
   font-optical-sizing: auto;
@@ -46,8 +53,8 @@
 }
 
 .carousel img {
-  height: 800px;
-  width: auto;
+  height: 120vh;
+  width: 99vw;
   object-fit: cover;
   border-radius: 10px;
 }

@@ -22,7 +22,7 @@ const MeetDetails = () => {
   const [isAuthor, setIsAuthor] = useState(false);
   const [isSubscribed, setIsSubscribed] = useState(false);
   const [isFlagged, setIsFlagged] = useState(false);
-
+  const [isActive, setIsActive] = useState(true);
   const [fetchLocalStorage, setFetchLocalStorage] = useState(false);
 
   const tooltipTriggerList = document.querySelectorAll(
@@ -67,15 +67,28 @@ const MeetDetails = () => {
       if (res.data.author.id === userCtx.userId) {
         setIsAuthor(true);
       }
-      if (res.data.abuseflag) {
-        setIsFlagged(true);
-      }
+      setIsActive(res.data.active);
+      setIsFlagged(res.data.abuseflag);
     } else {
       console.log("something went wrong");
       navigate("/login");
     }
   };
 
+  const deleteMeet = async () => {
+    const res = await fetchData(
+      "api/meet/delete/" + meetId + "/",
+      "DELETE",
+      undefined,
+      userCtx.accessToken
+    );
+    if (res.ok) {
+      getMeetDetails();
+    } else {
+      console.log("something went wrong");
+      // navigate("/login");
+    }
+  };
   const getParticipants = async () => {
     const res = await fetchData(
       "api/participant/" + meetId + "/count/",
@@ -154,186 +167,212 @@ const MeetDetails = () => {
       getParticipants();
     }
   }, [fetchLocalStorage, isSubscribed]);
+
+  //------RENDER BLOCK------------------------------------------//
   return (
     <>
       {isLoaded ? (
-        <div className="display container d-flex flex-row mt-50">
-          <div className="container gx-0">
-            <img src={meetData.foodimg} className="meetimg" />
-            <div className="py-1">About the organizer:</div>
+        <div className="display container-fluid grid">
+          <div className="row">
+            <div className="col g-3 x-0">
+              <img src={meetData.foodimg} className="meetimg" />
+              <div className="py-1">About the organizer:</div>
 
-            <div>
-              <ul className="list-group w-75">
-                <li
-                  className="list-group-item"
-                  data-bs-toggle="tooltip"
-                  data-bs-title="username"
-                >
-                  {meetData.author.name}
-                </li>
-                <li
-                  className="list-group-item"
-                  data-bs-toggle="tooltip"
-                  data-bs-title="email"
-                >
-                  {meetData.author.email}
-                </li>
-                <li
-                  className="list-group-item"
-                  data-bs-toggle="tooltip"
-                  data-bs-title="phone number"
-                >
-                  {meetData.author.hpnum || `No number provided`}
-                </li>
-              </ul>
-              {!isFlagged ? (
-                <button
-                  onClick={() => {
-                    flagEvent();
-                  }}
-                  className="flagbtn mt-1"
-                >
-                  <img src={flag} width="8%" alt="" className="m-2" />
-                  Flag this event for abuse
-                </button>
-              ) : (
-                <button
-                  onClick={() => {
-                    flagEvent();
-                  }}
-                  className="flagbtn mt-1"
-                >
-                  <img src={flag} width="8%" alt="" className="m-2" />
-                  Unflag this event for abuse
-                </button>
-              )}
-              <p className="badge text-bg-secondary">
-                {isFlagged &&
-                  "An admin is checking if this event is against the rules"}
-              </p>
-            </div>
-          </div>
-          <div className="detailcontainer mx-2 gx-2 lh-1">
-            <h2 className="fs-2">{meetData.title}</h2>
-            {isSubscribed && isAuthor && (
-              <button
-                onClick={() => {
-                  navigate(`/meet/${meetData.id}/update`);
-                }}
-                className="badge round-pill text-bg-success float-end"
-              >
-                edit page
-              </button>
-            )}
-            <p className="lead fw-medium">{meetData.cuisinetype.name}</p>
-            <hr></hr>
-            <p className="fw-normal">{meetData.address}</p>
-            <p>
-              {new Intl.DateTimeFormat("en-GB", {
-                dateStyle: "full",
-                timeZone: "Asia/Singapore",
-              }).format(new Date(meetData.meetdatetime))}
-            </p>
-            <p>
-              {new Intl.DateTimeFormat("en-GB", {
-                timeStyle: "short",
-                timeZone: "Asia/Singapore",
-              }).format(new Date(meetData.meetdatetime))}
-            </p>
-            <p>
-              {meetData.website && (
-                <a
-                  href={meetData.website}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Menu / Website
-                </a>
-              )}
-            </p>
-            <div className="mt-3">
-              <p className="p-3 rounded-pill text-bg-secondary">
-                Number of People Going:{" "}
-                <span className="text-bg-secondary float-end">
-                  {meetData.currentnum} / {meetData.maxnum}
-                </span>
-              </p>
-            </div>
-            {isAuthor && meetData.is_full && (
-              <button
-                title="Click for Contact Info!"
-                className="collapsebutton"
-                data-bs-toggle="collapse"
-                data-bs-target="#collapseContact"
-              >
-                Let's Makan! 💌
-              </button>
-            )}
-            {isAuthor && !meetData.is_full && (
-              <button
-                className="collapsebutton"
-                data-bs-toggle="collapse"
-                data-bs-target="#collapseContact"
-                disabled={true}
-              >
-                Event needs to be full to see who's going
-              </button>
-            )}
-            <div className="collapse mt-1" id="collapseContact">
-              <div className="card card-body">
-                <div className="d-flex flex-row px-2 justify-content-between">
-                  <div className="mt-1">Name:</div>
-                  <div className="mt-1">email:</div>
-                  <div className="mt-1">mobile:</div>
-                </div>
-                {contactIsLoaded &&
-                  meetParticipants.map((entry, index) => {
-                    return (
-                      <div
-                        className={`card p-2 d-flex flex-row justify-content-between ${
-                          index % 2 && `oddline`
-                        }`}
-                      >
-                        <div className="mt-1">{entry.name}</div>
-                        <div className="mt-1">{entry.email}</div>
-                        <div className="mt-1">{entry.hpnum}</div>
-                      </div>
-                    );
-                  })}
+              <div>
+                <ul className="list-group w-75">
+                  <li
+                    className="list-group-item"
+                    data-bs-toggle="tooltip"
+                    data-bs-title="username"
+                  >
+                    {meetData.author.name}
+                  </li>
+                  <li
+                    className="list-group-item"
+                    data-bs-toggle="tooltip"
+                    data-bs-title="email"
+                  >
+                    {meetData.author.email}
+                  </li>
+                  <li
+                    className="list-group-item"
+                    data-bs-toggle="tooltip"
+                    data-bs-title="phone number"
+                  >
+                    {meetData.author.hpnum || `No number provided`}
+                  </li>
+                </ul>
+                {!isFlagged ? (
+                  <button
+                    onClick={() => {
+                      flagEvent();
+                    }}
+                    className="flagbtn"
+                  >
+                    <img src={flag} width="8%" alt="" className="m-2" />
+                    Flag this event for abuse
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => {
+                      flagEvent();
+                    }}
+                    className="flagbtn mt-1"
+                  >
+                    <img src={flag} width="8%" alt="" className="m-2" />
+                    Unflag this event for abuse
+                  </button>
+                )}
+                <p className="badge text-bg-secondary">
+                  {isFlagged &&
+                    "An admin is checking if this event is against the rules"}
+                </p>
               </div>
             </div>
-            <div className="mt-2 buttoncontainer">
-              <button
-                title="Click to join!"
-                className="me-3"
-                disabled={isAuthor || isSubscribed || meetData.is_full}
-                onClick={() => {
-                  handleSubscribe();
-                }}
-              >
-                Let's Go
-              </button>
-              {isSubscribed && isAuthor && `You are the organizer of this`}
+            <div className="col-7 mx-2 gx-2 lh-1">
+              <h2 className="fs-2">{meetData.title}</h2>
+              {isSubscribed && isAuthor && (
+                <>
+                  <button
+                    disabled={!isActive}
+                    data-bs-toggle="modal"
+                    data-bs-target="#deleteModal"
+                    className="badge round-pill text-bg-dark float-end"
+                  >
+                    delete
+                  </button>
+                  <button
+                    disabled={!isActive}
+                    onClick={() => {
+                      navigate(`/meet/${meetData.id}/update`);
+                    }}
+                    className="badge round-pill text-bg-success float-end mx-2"
+                  >
+                    edit page
+                  </button>
+                </>
+              )}
+              <p className="lead fw-medium">{meetData.cuisinetype.name}</p>
+              {!isActive && (
+                <button className="round-pill text-bg-dark pe-none">
+                  This Event is Inactive
+                </button>
+              )}
+              <hr></hr>
+              <p className="fw-normal">{meetData.address}</p>
+              <p>
+                {new Intl.DateTimeFormat("en-GB", {
+                  dateStyle: "full",
+                  timeZone: "Asia/Singapore",
+                }).format(new Date(meetData.meetdatetime))}
+              </p>
+              <p>
+                {new Intl.DateTimeFormat("en-GB", {
+                  timeStyle: "short",
+                  timeZone: "Asia/Singapore",
+                }).format(new Date(meetData.meetdatetime))}
+              </p>
+              <p>
+                {meetData.website && (
+                  <a
+                    href={meetData.website}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Menu / Website
+                  </a>
+                )}
+              </p>
+              <div className="mt-3">
+                <p className="p-3 rounded-pill text-bg-warning">
+                  Number of People Going:{" "}
+                  <span className="float-end">
+                    {meetData.currentnum} / {meetData.maxnum}
+                  </span>
+                </p>
+              </div>
+              {isAuthor && meetData.is_full && (
+                <button
+                  title="Click for Contact Info!"
+                  className="collapsebutton"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#collapseContact"
+                >
+                  Let's Makan! 💌
+                </button>
+              )}
+              {isAuthor && !meetData.is_full && isActive && (
+                <button className="collapsebutton" disabled={true}>
+                  When full you can see who's coming!
+                </button>
+              )}
+              <div className="collapse mt-1" id="collapseContact">
+                <div className="card card-body">
+                  <div className="d-flex flex-row px-2 justify-content-between">
+                    <div className="mt-1">Name:</div>
+                    <div className="mt-1">email:</div>
+                    <div className="mt-1">mobile:</div>
+                  </div>
+                  {contactIsLoaded &&
+                    meetParticipants.map((entry, index) => {
+                      return (
+                        <div
+                          className={`card p-2 d-flex flex-row justify-content-between ${
+                            index % 2 && `oddline`
+                          }`}
+                        >
+                          <div className="mt-1">{entry.name}</div>
+                          <div className="mt-1">{entry.email}</div>
+                          <div className="mt-1">{entry.hpnum}</div>
+                        </div>
+                      );
+                    })}
+                </div>
+              </div>{" "}
+              {isActive && (
+                <>
+                  <div className="mt-2 buttoncontainer">
+                    <button
+                      title="Click to join!"
+                      className="me-3"
+                      disabled={isAuthor || isSubscribed || meetData.is_full}
+                      onClick={() => {
+                        handleSubscribe();
+                      }}
+                    >
+                      Let's Go
+                    </button>
+                    {isSubscribed &&
+                      isAuthor &&
+                      `You are the organizer of this`}
 
-              {!isSubscribed &&
-                meetData.is_full &&
-                "This meet is full, sorry :("}
+                    {!isSubscribed &&
+                      meetData.is_full &&
+                      "This meet is full, sorry :("}
+                  </div>
+                  {isSubscribed && !isAuthor && (
+                    <p>
+                      <br />
+                      Yay you are going! <br />
+                      <br />
+                      Wait for the host to contact you when this event is full.
+                    </p>
+                  )}
+                  <br></br>
+                  {isSubscribed && !isAuthor && (
+                    <button
+                      title="Boooo pangseh"
+                      className="btn btn-dark me-3"
+                      onClick={() => {
+                        handleUnsubscribe();
+                      }}
+                    >
+                      Back out
+                    </button>
+                  )}
+                </>
+              )}
             </div>
-            {isSubscribed &&
-              !isAuthor &&
-              "Yay you are going! Wait for the host to contact you when this event is full."}
-            <br></br>
-            {isSubscribed && !isAuthor && (
-              <button
-                title="Boooo pangseh"
-                className="btn btn-dark mt-3 me-3"
-                onClick={() => {
-                  handleUnsubscribe();
-                }}
-              >
-                Back out
-              </button>
-            )}
           </div>
         </div>
       ) : (
@@ -343,6 +382,44 @@ const MeetDetails = () => {
           </div>
         </div>
       )}
+      <div className="modal fade" id="deleteModal" tabIndex="-1">
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header text-bg-dark">
+              <h1 className="modal-title fs-5 " id="updateModalLabel">
+                Delete Notice:
+              </h1>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+              ></button>
+            </div>
+            <div className="modal-body">
+              This action is undoable, your meet will be archived.
+            </div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+              <button
+                data-bs-dismiss="modal"
+                type="button"
+                className="btn btn-dark"
+                onClick={() => {
+                  deleteMeet();
+                }}
+              >
+                Delete this meet
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </>
   );
 };

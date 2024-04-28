@@ -9,10 +9,6 @@
   border: white solid 2px;
 }
 
-.detailcontainer {
-  width: 65vw;
-}
-
 .titlewriter {
   padding: 2px 10px;
   width: 75%;
@@ -36,6 +32,6 @@
 
 .flagbtn {
   height: 10%;
-  width: 50%;
+  width: 70%;
   padding: 0px;
 }

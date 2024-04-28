@@ -177,12 +177,16 @@ const Home = () => {
                   ></input>
                   &nbsp;See full meetups
                 </label>
-                <select className="form-select mb-1 w-75" name="cuisinetype">
-                  <option value={0}>Select cuisine</option>
-                  {cuisineType.map((entry, id) => {
-                    return <option value={entry.id}>{entry.name}</option>;
-                  })}
-                </select>
+                <hr></hr>
+                <label>
+                  Filter by Cuisine type:
+                  <select className="form-select mb-1 w-75" name="cuisinetype">
+                    <option value={0}>Select cuisine</option>
+                    {cuisineType.map((entry, id) => {
+                      return <option value={entry.id}>{entry.name}</option>;
+                    })}
+                  </select>
+                </label>
                 <div className="mt-3 container d-flex flex-row justify-content-around">
                   <button type="submit" className="">
                     Search
