@@ -49,6 +49,7 @@ const Home = () => {
       userCtx.accessToken
     );
     if (res.ok) {
+      console.log(res.data);
       setMeetList(res.data);
       setLoaded(true);
     } else {
@@ -236,7 +237,7 @@ const Home = () => {
             )}
           </div>
         ) : (
-          <div>Loading...</div>
+          <div className="display-6">Loading...</div>
         )}
       </div>
     </>

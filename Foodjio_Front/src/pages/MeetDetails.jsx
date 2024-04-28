@@ -47,6 +47,7 @@ const MeetDetails = () => {
       }
       userCtx.setUserId(decoded.user_id);
       userCtx.setMyName(decoded.name);
+      userCtx.setIsAdmin(decoded.is_admin);
       setFetchLocalStorage(true);
     } else {
       console.log("local storage invalid");
