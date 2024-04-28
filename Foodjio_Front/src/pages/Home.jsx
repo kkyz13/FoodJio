@@ -34,6 +34,7 @@ const Home = () => {
       userCtx.setUserId(decoded.user_id);
       userCtx.setMyName(decoded.name);
       userCtx.setIsAdmin(decoded.is_admin);
+      userCtx.setProfilePic(decoded.img);
       setFetchLocalStorage(true);
     } else {
       console.log("local storage invalid");
@@ -237,7 +238,12 @@ const Home = () => {
             )}
           </div>
         ) : (
-          <div className="display-6">Loading...</div>
+          <div className="vstack d-flex align-items-center m-5">
+            <div className="display-6">Loading</div>
+            <div className="spinner-border" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </div>
+          </div>
         )}
       </div>
     </>

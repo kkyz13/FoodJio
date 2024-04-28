@@ -38,6 +38,9 @@ const Profile = () => {
       }
       userCtx.setUserId(decoded.user_id);
       userCtx.setMyName(decoded.name);
+      userCtx.setIsAdmin(decoded.is_admin);
+
+      userCtx.setProfilePic(decoded.img);
       setFetchLocalStorage(true);
     } else {
       console.log("local storage invalid");
@@ -134,6 +137,7 @@ const Profile = () => {
     emailRef.current.value = myData.email;
     nameRef.current.value = myData.name;
     phoneRef.current.value = myData.hpnum;
+    setImgUrl(myData.img);
   }, [myData]);
 
   //-------------------------RENDER BLOCK----------------------//

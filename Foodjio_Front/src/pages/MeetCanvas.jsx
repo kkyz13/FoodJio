@@ -45,6 +45,8 @@ const MeetCanvas = () => {
       }
       userCtx.setUserId(decoded.user_id);
       userCtx.setMyName(decoded.name);
+      userCtx.setIsAdmin(decoded.is_admin);
+      userCtx.setProfilePic(decoded.img);
       setFetchLocalStorage(true);
     } else {
       console.log("local storage invalid");
