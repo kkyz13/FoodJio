@@ -8,7 +8,7 @@ const MeetCard = (props) => {
     <div
       className={`meetcard ${props.isFull ? "full" : ""} ${
         props.author === userCtx.userId ? "author" : ""
-      }
+      } ${!props.active ? "inactive" : ""}
       ${userCtx.isAdmin && props.flag ? "flagged" : ""}`}
     >
       <img src={props.imgUrl} className="cardimg" />

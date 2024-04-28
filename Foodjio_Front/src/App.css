@@ -107,8 +107,12 @@
 .full {
   opacity: 70%;
 }
+
 .author {
   background-color: rgb(238, 252, 217);
+}
+.inactive {
+  background-color: #c8c8c8;
 }
 .flagged {
   background-color: #9e4b4b;

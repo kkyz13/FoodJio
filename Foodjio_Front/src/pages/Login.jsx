@@ -44,7 +44,7 @@ const Login = () => {
       navigate("/home");
       setLogin(true);
     } else {
-      console.log("Do not pass GO");
+      setMessage("Login Failed");
     }
   };
   const handleRegister = async () => {
@@ -68,6 +68,11 @@ const Login = () => {
       if (res.ok) {
         console.log(res);
         console.log("registration successful");
+        regNameRef.current.value = "";
+        regEmailRef.current.value = "";
+        regHpNumRef.current.value = "";
+        regPasswordRef.current.value = "";
+        setMessage("Registration successful, please login.");
         setShowRegister(false);
       } else {
         console.log(data.message);
@@ -84,7 +89,7 @@ const Login = () => {
       <div className="login">
         <div className="row">
           <div className="leftbox col-3 g-0 d-flex flex-column align-items-center">
-            <p>Finding people with the same taste as you</p>
+            <p>Find people with the same taste as you</p>
             <div>
               <img src={logo} alt="MakanTogether" />
             </div>
@@ -147,7 +152,9 @@ const Login = () => {
                 </button>
               </>
             )}
-            <p className="text-center">{message}</p>
+            <div className="container">
+              <p className="text-center">{message}</p>
+            </div>
           </div>
           <div className="col-9 g-0">
             <div
