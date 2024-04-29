@@ -28,7 +28,7 @@ const UploadWidget = (props) => {
           widgetRef.current.open();
         }}
       >
-        Upload
+        {props.children}
       </button>
     </>
   );

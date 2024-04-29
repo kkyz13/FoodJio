@@ -146,10 +146,9 @@ const Profile = () => {
       <div className="d-flex flex-column text-center">
         <div>{imgUrl && <img src={imgUrl} className="profilepic m-5" />}</div>
         <div className="m-3 mx-5">
-          <UploadWidget
-            setImgUrl={setImgUrl}
-            uploadName={"w5tcmue1"}
-          ></UploadWidget>
+          <UploadWidget setImgUrl={setImgUrl} uploadName={"w5tcmue1"}>
+            Update Profile Pic
+          </UploadWidget>
         </div>
         <h2>Despite Everything, It's still you.</h2>
         {message && `${message}`}

@@ -135,6 +135,7 @@ const MeetCanvas = () => {
           "You cannot decrease the capacity below the number of people already going."
         );
       }
+
       const res = await fetchData(
         "/api/meet/update/" + meetId + "/",
         "PATCH",
@@ -151,6 +152,7 @@ const MeetCanvas = () => {
         userCtx.accessToken
       );
       if (res.ok) {
+        console.log("Here");
         console.log("event updated successfully!");
         navigate("/meet/" + meetId);
       } else {
@@ -185,10 +187,9 @@ const MeetCanvas = () => {
           {imgUrl && <img src={imgUrl} />}
           {customUpload && (
             <>
-              <UploadWidget
-                setImgUrl={setImgUrl}
-                uploadName={"fsb8i2rw"}
-              ></UploadWidget>
+              <UploadWidget setImgUrl={setImgUrl} uploadName={"fsb8i2rw"}>
+                Upload Image
+              </UploadWidget>
             </>
           )}
           {!customUpload ? (
