@@ -32,4 +32,4 @@ class UserSerializer(serializers.ModelSerializer):
 class AuthorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Account
-        fields = ['id', 'name', 'email', 'hpnum']
+        fields = ['id', 'name', 'email', 'hpnum', 'is_active', 'is_superuser']

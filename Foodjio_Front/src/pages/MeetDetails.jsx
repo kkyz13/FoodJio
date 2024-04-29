@@ -159,6 +159,23 @@ const MeetDetails = () => {
       console.log("something went wrong");
     }
   };
+
+  const banUser = async () => {
+    const res = await fetchData(
+      "/account/a/delete/inteloper/" + meetData.author.id + "/",
+      "DELETE",
+      undefined,
+      userCtx.accessToken
+    );
+    if (res.ok) {
+      console.log(res);
+      getMeetDetails();
+      console.log("User ban");
+    } else {
+      console.log("something went wrong");
+    }
+  };
+
   useEffect(() => {
     loginCheck();
   }, []);
@@ -196,6 +213,9 @@ const MeetDetails = () => {
                     data-bs-title="username"
                   >
                     {meetData.author.name}
+                    {userCtx.isAdmin && (
+                      <button className="badge float-end z-3" onClick={()=>{banUser()}}>ban user</button>
+                    )}
                   </li>
                   <li
                     className="list-group-item"
@@ -278,6 +298,11 @@ const MeetDetails = () => {
               {!isActive && (
                 <button className="round-pill text-bg-dark pe-none">
                   This Event is Inactive
+                </button>
+              )}
+              {!meetData.author.is_active && (
+                <button className="round-pill text-bg-danger pe-none">
+                  The Organizer has been banned
                 </button>
               )}
               <hr></hr>
