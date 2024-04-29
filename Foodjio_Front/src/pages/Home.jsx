@@ -142,7 +142,7 @@ const Home = () => {
           id="offcanvasRight"
           aria-labelledby="offcanvasRightLabel"
         >
-          <div class="offcanvas-header">
+          <div class="offcanvas-header text-bg-secondary">
             <h5 class="offcanvas-title" id="offcanvasRightLabel">
               Filter Control Panel
             </h5>
