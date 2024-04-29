@@ -1,3 +1,5 @@
+<<TRIGGER IS OPTIONAL, IT IS STILL USABLE BUT THE API LOGICS NOW HANDLE THIS>>
+
 -- FUNCTION: public.falsify_meet_maxnum()
 
 -- DROP FUNCTION IF EXISTS public.falsify_meet_maxnum();
