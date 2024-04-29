@@ -8,7 +8,6 @@ import { jwtDecode } from "jwt-decode";
 import flag from "../assets/flag-triangle-svgrepo-com.svg";
 
 const MeetDetails = () => {
-  let makan_id = 0;
   const params = useParams();
   const meetId = params.id;
   const userCtx = useContext(UserContext);
@@ -236,7 +235,7 @@ const MeetDetails = () => {
                     Unflag this event for abuse
                   </button>
                 )}
-                <p className="badge text-bg-secondary">
+                <p className="badge text-bg-secondary text-wrap">
                   {isFlagged &&
                     "An admin is checking if this event is against the rules"}
                 </p>

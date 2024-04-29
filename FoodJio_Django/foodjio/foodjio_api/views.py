@@ -6,6 +6,7 @@ from .serializers import MeetSerializer, CuisineSerializer, SubscribeSerializer,
 from foodjio_account.models import Account
 from foodjio_account.serializers import AuthorSerializer
 from rest_framework.permissions import IsAuthenticated
+
 from django.db.models import Count
 from collections import defaultdict
 from rest_framework_simplejwt.authentication import JWTAuthentication
@@ -65,11 +66,12 @@ class get_query_meets(APIView):
     def get(self,request):
         parameters = request.GET.dict()
         filters = {}
+        excludes = {}
         if 'active' in parameters:
             active_value = request.GET.get('active')
             if active_value.lower() == 'true':
                 filters['active'] = True
-            elif active_value.lower() == 'false':
+            else:
                 filters['active'] = False
         if 'isfull' in parameters:
             is_full_value = request.GET.get('isfull')
@@ -79,12 +81,17 @@ class get_query_meets(APIView):
                 filters['is_full'] = False
         if 'author' in parameters:
             author = request.GET.get('author')
-            filters['author_id'] = author
+            if author.startswith('!'):  # Check for the "false" flag
+                author_id = author[1:]  # Remove the "!" prefix
+                excludes['author_id'] = author_id
+            else:
+                filters['author_id'] = author
+
         if 'cuisinetype' in parameters:
             cuisinetype_id = request.GET.get('cuisinetype')
             if cuisinetype_id != '0':
                 filters['cuisinetype_id'] = cuisinetype_id
-        meet_instance = Meet.objects.filter(**filters)
+        meet_instance = Meet.objects.filter(**filters).exclude(**excludes)
         serializer = GetMeetSerializer(meet_instance, many=True)
         return Response(serializer.data)
 

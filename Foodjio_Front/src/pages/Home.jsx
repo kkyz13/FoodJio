@@ -164,12 +164,34 @@ const Home = () => {
               <div className="vstack m-3">
                 <label>
                   <input
+                    type="checkbox"
+                    name="active"
+                    value="true"
+                    defaultChecked
+                  ></input>
+                  &nbsp;See only Active Meets<br></br>
+                </label>
+                <small className="badge text-bg-secondary">
+                  Unchecking this will show all meets{` (including inactive)`}
+                </small>
+                <br></br>
+                <label>
+                  <input
+                    type="checkbox"
+                    name="author"
+                    value={`!${userCtx.userId}`}
+                  ></input>
+                  &nbsp;See only other people's meets<br></br>
+                </label>
+                <hr></hr>
+                <label>
+                  <input
                     class="radiobutton"
                     type="radio"
                     name="isfull"
                     value="false"
                   ></input>
-                  &nbsp;See non-full meetups
+                  &nbsp;See available meetups
                 </label>
                 <label>
                   <input
@@ -219,7 +241,7 @@ const Home = () => {
                       author={entry.author.id}
                       title={entry.title}
                       address={entry.address}
-                      website={entry.website}
+                      datetime={entry.meetdatetime}
                       maxnum={entry.maxnum}
                       currentnum={entry.currentnum}
                       isFull={entry.is_full}
