@@ -102,6 +102,23 @@ const MeetCanvas = () => {
   };
   const submitEvent = async () => {
     try {
+      if (titleRef.current.value.length === 0) {
+        return alert("Please enter a title");
+      } else if (titleRef.current.value.length > 30) {
+        return alert("Title is too long, less than 30 characters please");
+      }
+      if (selectedCuisineId === 0) {
+        return alert("Please select a cuisine");
+      }
+      if (addressRef.current.value === 0) {
+        return alert("Please enter an address");
+      }
+      if (dateRef.current.value == 0) {
+        return alert("Please enter a date");
+      }
+      if (timeRef.current.value == 0) {
+        return alert("Please enter a time");
+      }
       const res = await fetchData(
         "/api/meet/add/",
         "PUT",
@@ -122,6 +139,7 @@ const MeetCanvas = () => {
         navigate("/home/");
       } else {
         console.log("new event submission failed!");
+        return alert("Something went wrong, did you fill in all the fields?");
       }
     } catch (error) {
       console.log(error);

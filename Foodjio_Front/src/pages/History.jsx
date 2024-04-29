@@ -74,6 +74,7 @@ const History = () => {
       } else console.log(res);
     } catch (error) {
       console.error(error);
+      navigate("/login/");
     }
   };
   useEffect(() => {
@@ -88,7 +89,7 @@ const History = () => {
   }, [fetchLocalStorage]);
   return (
     <div className="display container">
-      <div className="title m-0">Your Interacted Meets: </div>
+      <div className="title m-0">Meets you are going: </div>
       {myLoaded ? (
         <>
           <div className=" d-flex flex-row flex-wrap">
@@ -125,7 +126,7 @@ const History = () => {
         <div>Loading:</div>
       )}
       <hr></hr>
-      <div className="title m-0">Your Meets: </div>
+      <div className="title m-0">Your Created Meets: </div>
 
       {loaded ? (
         <>

@@ -12,6 +12,9 @@ const Topbar = () => {
     userCtx.setMyName("");
     userCtx.setIsAdmin(false);
     userCtx.setUserId("");
+    userCtx.setProfilePic("");
+    userCtx.setAccessToken("");
+    userCtx.setRefreshToken("");
   };
 
   return (
