@@ -84,6 +84,7 @@ const MeetCanvas = () => {
         addressRef.current.value = data.address;
         linkRef.current.value = data.website;
         setCapacity(data.maxnum);
+        setImgUrl(data.foodimg);
         //time input============//
         const d = new Date(data.meetdatetime);
 
@@ -93,6 +94,10 @@ const MeetCanvas = () => {
           hour: "2-digit",
           minute: "2-digit",
         });
+        if (!presetUrls.includes(imgUrl)) {
+          setCustomUpload(true);
+        }
+
         //=======================//
       } else {
         console.log("something went wrong");
@@ -153,7 +158,23 @@ const MeetCanvas = () => {
           "You cannot decrease the capacity below the number of people already going."
         );
       }
-
+      if (titleRef.current.value.length === 0) {
+        return alert("Please enter a title");
+      } else if (titleRef.current.value.length > 30) {
+        return alert("Title is too long, less than 30 characters please");
+      }
+      if (selectedCuisineId === 0) {
+        return alert("Please select a cuisine");
+      }
+      if (addressRef.current.value === 0) {
+        return alert("Please enter an address");
+      }
+      if (dateRef.current.value == 0) {
+        return alert("Please enter a date");
+      }
+      if (timeRef.current.value == 0) {
+        return alert("Please enter a time");
+      }
       const res = await fetchData(
         "/api/meet/update/" + meetId + "/",
         "PATCH",
@@ -186,17 +207,17 @@ const MeetCanvas = () => {
   }, []);
 
   useEffect(() => {
-    if (!customUpload) {
-      setImgUrl(presetUrls[selectedCuisineId]);
-    }
-  }, [selectedCuisineId]);
-
-  useEffect(() => {
     getCType();
     if (meetId) {
       populateForm();
     }
   }, [fetchLocalStorage]);
+
+  useEffect(() => {
+    if (!customUpload) {
+      setImgUrl(presetUrls[selectedCuisineId]);
+    }
+  }, [selectedCuisineId]);
 
   return (
     <>
