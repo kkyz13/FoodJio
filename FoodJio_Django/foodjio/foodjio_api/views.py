@@ -135,8 +135,20 @@ class patch_meet(APIView):
 
         if meet.author.id != user.id:
             return Response({'error': 'You are not authorized to update this meet'}, status=403)
-        serializer = MeetSerializer(instance=meet, data=request.data, partial=True)
 
+
+        #check new capacity against existing number of people
+        if 'maxnum' in request.data:
+            new_maxnum = int(request.data['maxnum'])
+            existing_num = meet.currentnum
+            if new_maxnum < existing_num:
+                return Response('You cannot assign max number below current number', status=400)
+            elif new_maxnum == existing_num:
+                request.data['is_full'] = True
+            elif new_maxnum > existing_num:
+                request.data['is_full'] = False
+
+        serializer = MeetSerializer(instance=meet, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response('meet updated')
