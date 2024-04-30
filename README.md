@@ -27,7 +27,7 @@ _Find people with the same taste as you_
 - [Picture API](https://cloudinary.com)
 
 ## Getting Started
-## env values (FrontEnd)
+#### env values (FrontEnd)
 | Values      | Description |
 | ----------- | ----------- |
 | VITE_SERVER      | IP to FrontEnd     |
