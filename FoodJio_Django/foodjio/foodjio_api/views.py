@@ -51,7 +51,7 @@ class get_meets(APIView):
     def get(self, request):
         user_id = request.user.id  # Get the user ID from the JWT token
         user = Account.objects.get(id=user_id)  # Get the user object from the Account model
-        thirty_days_ahead = datetime.now() + timedelta(days=30) # By Default it gets events from now to 30 days ahead
+        thirty_days_ahead = datetime.now() + timedelta(days=90) # By Default it gets events from now to 90 days ahead
         if user.is_admin:
             meet_instance = Meet.objects.filter(meetdatetime__lte=thirty_days_ahead, meetdatetime__gte=datetime.now())
             serializer = GetMeetSerializer(meet_instance, many=True)

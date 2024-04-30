@@ -12,6 +12,7 @@ const Home = () => {
   const [meetList, setMeetList] = useState([{}]);
   const [cuisineType, setCuisineType] = useState([]);
   const [loaded, setLoaded] = useState(false);
+  const [customSearch, setCustomSearch] = useState(false);
   const [fetchLocalStorage, setFetchLocalStorage] = useState(false);
   const [formData, setFormData] = useState();
   const formRef = useRef();
@@ -51,6 +52,7 @@ const Home = () => {
     );
     if (res.ok) {
       console.log(res.data);
+      setCustomSearch(false);
       setMeetList(res.data);
       setLoaded(true);
     } else {
@@ -75,6 +77,7 @@ const Home = () => {
           userCtx.accessToken
         );
         if (res.ok) {
+          setCustomSearch(true);
           setMeetList(res.data);
         } else console.log(res);
       } catch (error) {
@@ -237,8 +240,15 @@ const Home = () => {
             </form>
           </div>
         </div>
+        <div className="mt-5">
+          {customSearch ? (
+            <h5>Filtered Results:</h5>
+          ) : (
+            <h5>Upcoming Jios {`90 days ahead:`}</h5>
+          )}
+        </div>
         {loaded ? (
-          <div className="meetlist d-flex flex-row flex-wrap">
+          <div className="mt-0 meetlist d-flex flex-row flex-wrap">
             {meetList.length > 0 ? (
               meetList.map((entry, id) => {
                 return (

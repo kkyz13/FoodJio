@@ -89,7 +89,7 @@ const History = () => {
   }, [fetchLocalStorage]);
   return (
     <div className="display container">
-      <div className="title m-0">Meets you are going: </div>
+      <div className="title m-0">Jios you are going: </div>
       {myLoaded ? (
         <>
           <div className=" d-flex flex-row flex-wrap">
@@ -127,7 +127,7 @@ const History = () => {
         <div>Loading:</div>
       )}
       <hr></hr>
-      <div className="title m-0">Your Created Meets: </div>
+      <div className="title m-0">Your Created Jios: </div>
 
       {loaded ? (
         <>
