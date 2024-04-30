@@ -186,7 +186,7 @@ const Home = () => {
                 <hr></hr>
                 <label>
                   <input
-                    class="radiobutton"
+                    className="radiobutton"
                     type="radio"
                     name="isfull"
                     value="false"
@@ -195,7 +195,7 @@ const Home = () => {
                 </label>
                 <label>
                   <input
-                    class="radiobutton"
+                    className="radiobutton"
                     type="radio"
                     name="isfull"
                     value="true"
@@ -212,6 +212,13 @@ const Home = () => {
                     })}
                   </select>
                 </label>
+                <label>
+                  Filter by Number of Days Ahead:
+                  <input name="datetime" className="form-control w-25"></input>
+                </label>
+                <small className="float-end m-1 badge text-bg-secondary text-wrap">
+                  Leaving this blank will search past events
+                </small>
                 <div className="mt-3 container d-flex flex-row justify-content-around">
                   <button type="submit" className="">
                     Search

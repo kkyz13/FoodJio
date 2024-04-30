@@ -21,13 +21,14 @@ const MeetCard = (props) => {
 
         <hr></hr>
         <p className="">{props.address}</p>
-        {/* <p className="fw-light">
+        <p className="fw-light">
           {new Intl.DateTimeFormat("en-GB", {
             dateStyle: "short",
-            timeStyle: "short",
+            // timeStyle: "short",
             timeZone: "Asia/Singapore",
           }).format(new Date(props.datetime))}
-        </p> */}
+        </p>
+
         <p className="smallprint fst-italic">
           {props.isFull && "this event is full 👯"}
           {!props.active && "this event is inactive ❌"}

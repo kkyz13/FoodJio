@@ -214,7 +214,14 @@ const MeetDetails = () => {
                   >
                     {meetData.author.name}
                     {userCtx.isAdmin && (
-                      <button className="badge float-end z-3" onClick={()=>{banUser()}}>ban user</button>
+                      <button
+                        className="badge float-end z-3"
+                        onClick={() => {
+                          banUser();
+                        }}
+                      >
+                        ban user
+                      </button>
                     )}
                   </li>
                   <li

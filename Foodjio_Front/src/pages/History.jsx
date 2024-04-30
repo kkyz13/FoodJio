@@ -102,6 +102,7 @@ const History = () => {
                       author={entry.author.id}
                       title={entry.title}
                       address={entry.address}
+                      datetime={entry.meetdatetime}
                       website={entry.website}
                       maxnum={entry.maxnum}
                       currentnum={entry.currentnum}
@@ -140,6 +141,7 @@ const History = () => {
                       author={entry.author.id}
                       title={entry.title}
                       address={entry.address}
+                      datetime={entry.meetdatetime}
                       website={entry.website}
                       maxnum={entry.maxnum}
                       currentnum={entry.currentnum}

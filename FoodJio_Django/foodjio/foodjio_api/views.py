@@ -6,6 +6,7 @@ from .serializers import MeetSerializer, CuisineSerializer, SubscribeSerializer,
 from foodjio_account.models import Account
 from foodjio_account.serializers import AuthorSerializer
 from rest_framework.permissions import IsAuthenticated
+from datetime import datetime, timedelta
 
 from django.db.models import Count
 from collections import defaultdict
@@ -50,12 +51,13 @@ class get_meets(APIView):
     def get(self, request):
         user_id = request.user.id  # Get the user ID from the JWT token
         user = Account.objects.get(id=user_id)  # Get the user object from the Account model
+        thirty_days_ahead = datetime.now() + timedelta(days=30) # By Default it gets events from now to 30 days ahead
         if user.is_admin:
-            meet_instance = Meet.objects.all()
+            meet_instance = Meet.objects.filter(meetdatetime__lte=thirty_days_ahead, meetdatetime__gte=datetime.now())
             serializer = GetMeetSerializer(meet_instance, many=True)
             return Response(serializer.data)
         else:
-            meet_instance = Meet.objects.filter(active=True)
+            meet_instance = Meet.objects.filter(active=True, meetdatetime__lte=thirty_days_ahead, meetdatetime__gte=datetime.now())
             serializer = GetMeetSerializer(meet_instance, many=True)
             return Response(serializer.data)
 
@@ -67,6 +69,14 @@ class get_query_meets(APIView):
         parameters = request.GET.dict()
         filters = {}
         excludes = {}
+        if 'datetime' in parameters:
+            try:
+                datedelta = int(request.GET.get('datetime'))
+                if datedelta != 0:
+                    filters['meetdatetime__range'] = (datetime.now(), datetime.now() + timedelta(days=datedelta))
+            except ValueError:
+                datedelta = 0
+
         if 'active' in parameters:
             active_value = request.GET.get('active')
             if active_value.lower() == 'true':
