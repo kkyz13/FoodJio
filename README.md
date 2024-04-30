@@ -1,4 +1,5 @@
-![makan](https://github.com/kkyz13/FoodJio/assets/155720573/3df7b568-c3b2-402f-a119-12b4072ccd35)
+
+![makantogether](https://github.com/kkyz13/FoodJio/assets/155720573/0bbe29f5-123d-4ddd-b23e-e02727b022ab)
 # MakanTogether (Production Codename: FoodJio)
 _Find people with the same taste as you_
 
