@@ -121,7 +121,7 @@ const Home = () => {
   //===========RENDER BLOCK====================================//
   return (
     <>
-      <div className={"display"}>
+      <div className="display container-fluid">
         <button
           className="newmeetbtn"
           onClick={() => {
@@ -248,7 +248,7 @@ const Home = () => {
           )}
         </div>
         {loaded ? (
-          <div className="mt-0 meetlist d-flex flex-row flex-wrap">
+          <div className="mt-0 meetlist d-flex flex-row flex-wrap container-fluid">
             {meetList.length > 0 ? (
               meetList.map((entry, id) => {
                 return (

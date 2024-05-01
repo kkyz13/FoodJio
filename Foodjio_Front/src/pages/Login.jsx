@@ -91,7 +91,7 @@ const Login = () => {
       <div className="login">
         <div className="row m-1">
           <div className="leftbox col-3 g-0 d-flex flex-column align-items-center text-center">
-            <p>Find people with the same taste as you</p>
+            <p className="fst-italic">Find people with the same taste as you</p>
             <div>
               <img src={logo} alt="MakanTogether" />
             </div>
