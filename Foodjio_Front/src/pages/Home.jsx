@@ -121,24 +121,24 @@ const Home = () => {
   //===========RENDER BLOCK====================================//
   return (
     <>
-      <div className="display container-fluid">
+      <button
+        className="newmeetbtn"
+        onClick={() => {
+          navigate("/meet/new/");
+        }}
+      >
+        New Jio
+      </button>
+      <div className="d-flex flex-row justify-content-end">
         <button
-          className="newmeetbtn"
-          onClick={() => {
-            navigate("/meet/new/");
-          }}
+          className="filterbtn btn btn-secondary me-5"
+          data-bs-toggle="offcanvas"
+          data-bs-target="#offcanvasRight"
         >
-          New Jio
+          Filter
         </button>
-        <div className="d-flex flex-row justify-content-end">
-          <button
-            className="filterbtn btn btn-secondary me-5"
-            data-bs-toggle="offcanvas"
-            data-bs-target="#offcanvasRight"
-          >
-            Filter
-          </button>
-        </div>
+      </div>
+      <div className="display container-fluid">
         <div
           class="offcanvas offcanvas-end"
           tabindex="-1"
@@ -217,7 +217,11 @@ const Home = () => {
                 </label>
                 <label>
                   Filter by Number of Days Ahead:
-                  <input name="datetime" className="form-control w-25"></input>
+                  <input
+                    name="datetime"
+                    defaultValue={90}
+                    className="form-control w-25"
+                  ></input>
                 </label>
                 <small className="float-end m-1 badge text-bg-secondary text-wrap">
                   Leaving this blank will search past events
@@ -240,11 +244,11 @@ const Home = () => {
             </form>
           </div>
         </div>
-        <div className="mt-5">
+        <div className="mt-3">
           {customSearch ? (
             <h5>Filtered Results:</h5>
           ) : (
-            <h5>Upcoming Jios {`90 days ahead:`}</h5>
+            <div className="title">Upcoming Jios {`90 days ahead:`}</div>
           )}
         </div>
         {loaded ? (

@@ -143,6 +143,7 @@
   font-size: large;
   padding: 2px 17px;
   position: fixed;
+  top: 66px;
   left: 45%;
   z-index: 50;
   background-color: rgb(255, 152, 152);
@@ -155,6 +156,7 @@
   font-size: large;
   padding: 2px 17px;
   position: fixed;
+  top: 66px;
   right: 15%;
   z-index: 50;
   background-color: rgb(188, 188, 188);

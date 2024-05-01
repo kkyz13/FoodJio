@@ -140,7 +140,7 @@ class put_meet(APIView):
             MeetParticipants.objects.create(meet=meet, account=user)  # Create a new MeetParticipants instance
             return Response(serializer.data)
         else:
-            return Response(serializer.errors)
+            return Response(serializer.errors, status=400)
 
 
 class patch_meet(APIView):
