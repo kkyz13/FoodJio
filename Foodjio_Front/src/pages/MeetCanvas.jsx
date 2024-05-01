@@ -112,10 +112,10 @@ const MeetCanvas = () => {
       } else if (titleRef.current.value.length > 30) {
         return alert("Title is too long, less than 30 characters please");
       }
-      if (selectedCuisineId === 0) {
+      if (!selectedCuisineId) {
         return alert("Please select a cuisine");
       }
-      if (addressRef.current.value === 0) {
+      if (addressRef.current.value == 0) {
         return alert("Please enter an address");
       }
       if (dateRef.current.value == 0) {
@@ -123,6 +123,11 @@ const MeetCanvas = () => {
       }
       if (timeRef.current.value == 0) {
         return alert("Please enter a time");
+      }
+      if (!capacity) {
+        return alert(
+          "Please decide how many people are coming (including yourself)"
+        );
       }
       const res = await fetchData(
         "/api/meet/add/",
@@ -163,10 +168,10 @@ const MeetCanvas = () => {
       } else if (titleRef.current.value.length > 30) {
         return alert("Title is too long, less than 30 characters please");
       }
-      if (selectedCuisineId === 0) {
+      if (!selectedCuisineId) {
         return alert("Please select a cuisine");
       }
-      if (addressRef.current.value === 0) {
+      if (addressRef.current.value == 0) {
         return alert("Please enter an address");
       }
       if (dateRef.current.value == 0) {
