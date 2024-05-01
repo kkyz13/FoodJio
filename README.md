@@ -75,6 +75,47 @@ Your own jios are colored green to differentiate from the other jios.
 
 As the organizer/author, you are not able to back out of your own meet, but you can edit or delete your own meets. (Delete would archive the event and not appear in search unless someone tries really hard to get it)
 
+<img width="408" alt="image" src="https://github.com/kkyz13/FoodJio/assets/155720573/5be80464-7234-4119-a58b-bf306f3683df">
+
+When it reaches capacity, the author can click on the Let's Makan button to see information of people who registered their interest. It's (currently) up to the organizer to then contact and make proper arrangement with the participants and restaurant.
+
 ![image](https://github.com/kkyz13/FoodJio/assets/155720573/02d46484-4815-41d0-b8e7-b340435ac3b2)
 
 Flagging an event would mark the event for an admin to check and ultimately delete the event or even outright ban the user.
+
+<img width="115" alt="image" src="https://github.com/kkyz13/FoodJio/assets/155720573/d42fff83-c885-4f8c-bb93-453b2644f8fe">
+
+There's a Jio History function to see all events you interacted with, and all events you authored.
+
+<img width="535" alt="image" src="https://github.com/kkyz13/FoodJio/assets/155720573/00cf63f6-e062-44f7-8317-844acaaf1916">
+
+The profile page is barebones. But you can upload a profile pic, and change your name and mobile number (but not e-mail).
+
+<img width="392" alt="image" src="https://github.com/kkyz13/FoodJio/assets/155720573/b1fcfbb3-8f98-4cf3-80f4-52d3a679b8a4">
+
+Updating any field will require the password from the user, and presents a modal to allow the user to understand there's a logout if the update goes through.
+
+### Administration Function
+
+The frontend has some basic controls for administrating the site.
+
+<img width="822" alt="image" src="https://github.com/kkyz13/FoodJio/assets/155720573/df0e26ae-5ca2-4562-9bf4-a1ae94a76341">
+
+Banner Color and font would change to reflect admin privileges. Admin can see user info (including id), ban the user and delete/restore the event. 
+
+![image](https://github.com/kkyz13/FoodJio/assets/155720573/27d611cf-65ca-474b-95ec-94e7b2ec718e)
+
+A flagged event turns deep red only to the admin.
+
+## Next Steps:
+- Ability to change password (code is there, but it's probably wrong somewhere)
+- Fuzzy Search
+- Restaurant Reservation Integration
+- Direct Messaging
+- Whatsapp Integration
+
+## Resources:
+- <a href="https://docs.djangoproject.com/en/5.0/"> Django Documentation</a>
+- <a href="https://getbootstrap.com/docs/5.3/getting-started/introduction/">Bootstrap Documentation</a>
+- <a href="https://reactrouter.com/en/main">React Routers Documentation</a>
+- <a href="https://www.blackbox.ai">Blackbox AI for tons of syntax help</a>
