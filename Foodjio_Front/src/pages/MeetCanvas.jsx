@@ -40,7 +40,7 @@ const MeetCanvas = () => {
       const currentTime = Math.floor(Date.now() / 1000); // convert to seconds
 
       if (decoded.exp < currentTime) {
-        console.log("AccessToken has expired");
+        alert("Something went wrong, dropping back to login");
         navigate("/login");
       }
       userCtx.setUserId(decoded.user_id);
@@ -49,7 +49,7 @@ const MeetCanvas = () => {
       userCtx.setProfilePic(decoded.img);
       setFetchLocalStorage(true);
     } else {
-      console.log("local storage invalid");
+      alert("Something went wrong, dropping back to login");
       navigate("/login");
     }
   };
@@ -63,7 +63,8 @@ const MeetCanvas = () => {
       }
     } catch (error) {
       // console.log(error.message);
-      console.log("Fetch failed");
+      alert("Something went wrong fetching data, try refreshing or log off");
+      // console.log("Fetch failed");
     }
   };
   const populateForm = async () => {
@@ -75,7 +76,7 @@ const MeetCanvas = () => {
         userCtx.accessToken
       );
       if (res.ok) {
-        console.log(res.data); //populate the form
+        // console.log(res.data); //populate the form
         setIsUpdate(true);
         const data = res.data;
         setMeetData(data);
@@ -100,7 +101,7 @@ const MeetCanvas = () => {
 
         //=======================//
       } else {
-        console.log("something went wrong");
+        alert("Something went wrong, dropping back to login");
         navigate("/login");
       }
     }
@@ -145,14 +146,15 @@ const MeetCanvas = () => {
         userCtx.accessToken
       );
       if (res.ok) {
-        console.log("new event submitted successfully!");
+        // console.log("new event submitted successfully!");
         navigate("/home/");
       } else {
-        console.log("new event submission failed!");
+        // console.log("new event submission failed!");
         return alert("Something went wrong, did you fill in all the fields?");
       }
     } catch (error) {
-      console.log(error);
+      alert("Something went wrong");
+      // console.log(error);
     }
   };
 
@@ -196,15 +198,15 @@ const MeetCanvas = () => {
         userCtx.accessToken
       );
       if (res.ok) {
-        console.log("Here");
-        console.log("event updated successfully!");
+        // console.log("event updated successfully!");
         navigate("/meet/" + meetId);
       } else {
-        console.log(res);
+        // console.log(res);
         return alert("Error: Your title isn't long enough");
       }
     } catch (error) {
-      console.log(error);
+      alert("Something went wrong, dropping back to login");
+      navigate("/login");
     }
   };
   useEffect(() => {
@@ -270,7 +272,11 @@ const MeetCanvas = () => {
           >
             <option defaultValue={0}>Select cuisine</option>
             {cuisineType.map((entry, id) => {
-              return <option value={entry.id}>{entry.name}</option>;
+              return (
+                <option key={id} value={entry.id}>
+                  {entry.name}
+                </option>
+              );
             })}
           </select>
           <input
@@ -318,7 +324,7 @@ const MeetCanvas = () => {
           )}
           How many to jio?{" "}
           {meetId &&
-            "You cannot set the capicity lower than the number of people already going"}
+            "You cannot set the capacity lower than the number of people already going"}
           <select
             value={capacity}
             className="form-select-sm mb-1 capselector"
@@ -326,7 +332,11 @@ const MeetCanvas = () => {
           >
             <option defaultValue={2}>How many gathering?</option>
             {Array.from({ length: 7 }, (_, i) => {
-              return <option value={i + 2}>{i + 2}</option>;
+              return (
+                <option key={i + 2} value={i + 2}>
+                  {i + 2}
+                </option>
+              );
             })}
           </select>
           {!isUpdate ? (

@@ -33,7 +33,7 @@ const Profile = () => {
       //check if access token is expired
       const currentTime = Math.floor(Date.now() / 1000); // convert to seconds
       if (decoded.exp < currentTime) {
-        console.log("AccessToken has expired");
+        alert("Something went wrong, dropping back to login");
         navigate("/login");
       }
       userCtx.setUserId(decoded.user_id);
@@ -43,7 +43,7 @@ const Profile = () => {
       userCtx.setProfilePic(decoded.img);
       setFetchLocalStorage(true);
     } else {
-      console.log("local storage invalid");
+      alert("Something went wrong, dropping back to login");
       navigate("/login");
     }
   };
@@ -58,10 +58,11 @@ const Profile = () => {
       if (res.ok) {
         setMyData(res.data);
       } else {
-        console.log("Something wrong happened");
+        alert("Something went wrong, dropping back to login");
+        navigate("/login");
       }
     } catch (error) {
-      console.log(error);
+      setMessage("Something went really wrong");
     }
   };
 
@@ -83,7 +84,6 @@ const Profile = () => {
           userCtx.accessToken
         );
         if (res.ok) {
-          console.log("user updated");
           setFetchLocalStorage(false);
           navigate("/login/");
         } else {
@@ -91,7 +91,7 @@ const Profile = () => {
         }
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       setMessage("Something wrong happened");
     }
   };
@@ -111,16 +111,16 @@ const Profile = () => {
           userCtx.accessToken
         );
         if (res.ok) {
-          console.log("password updated");
-          console.log(res.data);
-          // setFetchLocalStorage(false);
-          // navigate("/login/");
+          // console.log("password updated");
+          // console.log(res.data);
+          setFetchLocalStorage(false);
+          navigate("/login/");
         } else {
           setMessage("one of your fields is invalid.");
         }
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       setMessage("Something wrong happened");
     }
   };

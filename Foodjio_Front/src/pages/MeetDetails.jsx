@@ -41,7 +41,7 @@ const MeetDetails = () => {
       //check if access token is expired
       const currentTime = Math.floor(Date.now() / 1000); // convert to seconds
       if (decoded.exp < currentTime) {
-        console.log("AccessToken has expired");
+        alert("Something went wrong, dropping back to login");
         navigate("/login");
       }
       userCtx.setUserId(decoded.user_id);
@@ -50,7 +50,7 @@ const MeetDetails = () => {
       userCtx.setProfilePic(decoded.img);
       setFetchLocalStorage(true);
     } else {
-      console.log("local storage invalid");
+      alert("Something went wrong, dropping back to login");
       navigate("/login");
     }
   };
@@ -62,7 +62,6 @@ const MeetDetails = () => {
       userCtx.accessToken
     );
     if (res.ok) {
-      console.log(res.data);
       setIsLoaded(true);
       setMeetData(res.data);
       if (res.data.author.id === userCtx.userId) {
@@ -71,7 +70,7 @@ const MeetDetails = () => {
       setIsActive(res.data.active);
       setIsFlagged(res.data.abuseflag);
     } else {
-      console.log("something went wrong");
+      alert("Something went wrong, dropping back to login");
       navigate("/login");
     }
   };
@@ -86,8 +85,8 @@ const MeetDetails = () => {
     if (res.ok) {
       getMeetDetails();
     } else {
-      console.log("something went wrong");
-      // navigate("/login");
+      alert("Something went wrong, dropping back to login");
+      navigate("/login");
     }
   };
   const getParticipants = async () => {
@@ -106,7 +105,8 @@ const MeetDetails = () => {
         }
       }
     } else {
-      console.log("something went wrong");
+      alert("Something went wrong, logout and login again");
+      // console.log("something went wrong");
       navigate("/login");
     }
   };
@@ -118,12 +118,11 @@ const MeetDetails = () => {
       userCtx.accessToken
     );
     if (res.ok) {
-      console.log(res.data);
       setIsSubscribed(true);
     } else {
-      console.log("something went wrong");
-      console.log(res.error);
-      // navigate("/login");
+      alert("Something went wrong, logout and login again");
+      // console.log(res.error);
+      navigate("/login");
     }
   };
 
@@ -135,12 +134,10 @@ const MeetDetails = () => {
       userCtx.accessToken
     );
     if (res.ok) {
-      console.log(res.data);
       setIsSubscribed(false);
     } else {
-      console.log("something went wrong");
-      console.log(res.error);
-      // navigate("/login");
+      alert("Something went wrong, logout and login again");
+      navigate("/login");
     }
   };
 
@@ -152,11 +149,12 @@ const MeetDetails = () => {
       userCtx.accessToken
     );
     if (res.ok) {
-      console.log(res);
+      // console.log(res);
       setIsFlagged(!isFlagged);
-      console.log("event is flagged");
+      // console.log("event is flagged");
     } else {
-      console.log("something went wrong");
+      // console.log("something went wrong");
+      alert("Something went wrong, logout and login again");
     }
   };
 

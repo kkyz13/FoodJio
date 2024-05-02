@@ -21,24 +21,24 @@ const Home = () => {
     if (loggedInUser) {
       const token = JSON.parse(loggedInUser);
       const decoded = jwtDecode(loggedInUser);
-      console.log(token);
+      // console.log(token);
       userCtx.setAccessToken(token.access);
       userCtx.setRefreshToken(token.refresh);
 
       //check if access token is expired
       const currentTime = Math.floor(Date.now() / 1000); // convert to seconds
       if (decoded.exp < currentTime) {
-        console.log("AccessToken has expired");
+        // console.log("AccessToken has expired");
         navigate("/login");
       }
-      console.log(decoded);
+      // console.log(decoded);
       userCtx.setUserId(decoded.user_id);
       userCtx.setMyName(decoded.name);
       userCtx.setIsAdmin(decoded.is_admin);
       userCtx.setProfilePic(decoded.img);
       setFetchLocalStorage(true);
     } else {
-      console.log("local storage invalid");
+      alert("Something went wrong, dropping back to login");
       navigate("/login");
     }
   };
@@ -51,12 +51,12 @@ const Home = () => {
       userCtx.accessToken
     );
     if (res.ok) {
-      console.log(res.data);
+      // console.log(res.data);
       setCustomSearch(false);
       setMeetList(res.data);
       setLoaded(true);
     } else {
-      console.log(res.error);
+      alert("Something went wrong, dropping back to login");
       navigate("/login");
     }
   };
@@ -69,7 +69,7 @@ const Home = () => {
           params.append(key, value);
         }
         const queryString = params.toString();
-        console.log(queryString); // should log the query string
+        // console.log(queryString); // should log the query string
         const res = await fetchData(
           `/api/meets/query/?${queryString}`,
           "GET",
@@ -79,7 +79,10 @@ const Home = () => {
         if (res.ok) {
           setCustomSearch(true);
           setMeetList(res.data);
-        } else console.log(res);
+        } else {
+          alert("Something went wrong, dropping back to login");
+          navigate("/login");
+        }
       } catch (error) {
         console.error(error);
       }
@@ -94,7 +97,7 @@ const Home = () => {
       }
     } catch (error) {
       // console.log(error.message);
-      console.log("Fetch failed");
+      alert("Something went wrong when trying to get data, try refreshing");
     }
   };
   const clearForm = () => {
@@ -140,23 +143,23 @@ const Home = () => {
       </div>
       <div className="display container-fluid">
         <div
-          class="offcanvas offcanvas-end"
-          tabindex="-1"
+          className="offcanvas offcanvas-end"
+          tabIndex="-1"
           id="offcanvasRight"
           aria-labelledby="offcanvasRightLabel"
         >
-          <div class="offcanvas-header text-bg-secondary">
-            <h5 class="offcanvas-title" id="offcanvasRightLabel">
+          <div className="offcanvas-header text-bg-secondary">
+            <h5 className="offcanvas-title" id="offcanvasRightLabel">
               Filter Control Panel
             </h5>
             <button
               type="button"
-              class="btn-close"
+              className="btn-close"
               data-bs-dismiss="offcanvas"
               aria-label="Close"
             ></button>
           </div>
-          <div class="offcanvas-body">
+          <div className="offcanvas-body">
             <form
               ref={formRef}
               onSubmit={(e) => {
@@ -211,7 +214,11 @@ const Home = () => {
                   <select className="form-select mb-1 w-75" name="cuisinetype">
                     <option value={0}>Select cuisine</option>
                     {cuisineType.map((entry, id) => {
-                      return <option value={entry.id}>{entry.name}</option>;
+                      return (
+                        <option key={entry.id} value={entry.id}>
+                          {entry.name}
+                        </option>
+                      );
                     })}
                   </select>
                 </label>

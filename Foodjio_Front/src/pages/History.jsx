@@ -22,23 +22,22 @@ const History = () => {
     if (loggedInUser) {
       const token = JSON.parse(loggedInUser);
       const decoded = jwtDecode(loggedInUser);
-      console.log(token);
+      // console.log(token);
       userCtx.setAccessToken(token.access);
       userCtx.setRefreshToken(token.refresh);
 
       //check if access token is expired
       const currentTime = Math.floor(Date.now() / 1000); // convert to seconds
       if (decoded.exp < currentTime) {
-        console.log("AccessToken has expired");
+        alert("Something went wrong, dropping back to login");
         navigate("/login");
       }
-      console.log(decoded);
       userCtx.setUserId(decoded.user_id);
       userCtx.setMyName(decoded.name);
       userCtx.setIsAdmin(decoded.is_admin);
       setFetchLocalStorage(true);
     } else {
-      console.log("local storage invalid");
+      alert("Something went wrong, dropping back to login");
       navigate("/login");
     }
   };
@@ -54,7 +53,9 @@ const History = () => {
       if (res.ok) {
         setLoaded(true);
         setMeetList(res.data);
-      } else console.log(res);
+      } else {
+        alert("Something went really wrong, try logging off and on");
+      }
     } catch (error) {
       console.error(error);
     }
@@ -71,7 +72,11 @@ const History = () => {
       if (res.ok) {
         setMyLoaded(true);
         setMyMeetList(res.data);
-      } else console.log(res);
+      } else {
+        alert("Something went really wrong, try logging off and on");
+
+        // console.log(res);
+      }
     } catch (error) {
       console.error(error);
       navigate("/login/");

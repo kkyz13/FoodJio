@@ -40,7 +40,7 @@ const Login = () => {
       userCtx.setRefreshToken(res.data.refresh);
 
       const decoded = jwtDecode(res.data.access);
-      console.log(decoded);
+      // console.log(decoded);
       userCtx.setUserId(decoded.user_id);
       userCtx.setMyName(decoded.name);
       userCtx.setProfilePic(decoded.img);
@@ -69,8 +69,8 @@ const Login = () => {
       );
       const data = await res.json();
       if (res.ok) {
-        console.log(res);
-        console.log("registration successful");
+        // console.log(res);
+        // console.log("registration successful");
         regNameRef.current.value = "";
         regEmailRef.current.value = "";
         regHpNumRef.current.value = "";
@@ -78,12 +78,12 @@ const Login = () => {
         setMessage("Registration successful, please login.");
         setShowRegister(false);
       } else {
-        console.log(data.message);
+        // console.log(data.message);
         setMessage("Registration failed, one of your fields is invalid.");
       }
     } catch (error) {
-      console.log("something really bad has happened");
-      console.log(error);
+      setMessage("something really bad has happened");
+      // console.log(error);
     }
   };
   return (
@@ -91,7 +91,7 @@ const Login = () => {
       <div className="login">
         <div className="row m-1">
           <div className="leftbox col-3 g-0 d-flex flex-column align-items-center text-center">
-            <p className="fst-italic">Find people with the same taste as you</p>
+            <p className="fst-italic">Food taste better, when you</p>
             <div>
               <img src={logo} alt="MakanTogether" />
             </div>
