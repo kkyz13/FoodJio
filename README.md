@@ -40,6 +40,8 @@ For **Foodjio_Front**, run ```npm i``` and create this to an .env file.
 
 For **Foodjio_Django**, ensure you have installed django before initiating the project. As this project uses postgres, you may have to also install postgres (and not the default SQLite)
 
+Do create an admin account in django by using this command: ```python manage.py createsuperuser```  for administrative purposes (there is no way to make admin accounts on the front)
+
 ## How to Use
 
 <img width="384" alt="Screenshot 2024-05-01 105906" src="https://github.com/kkyz13/FoodJio/assets/155720573/bc3d5e2b-1463-43a2-b6a4-22f21a4d9509">
